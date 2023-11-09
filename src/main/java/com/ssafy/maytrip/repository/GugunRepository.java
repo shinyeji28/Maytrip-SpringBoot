@@ -1,6 +1,7 @@
 package com.ssafy.maytrip.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,5 +12,6 @@ public interface GugunRepository extends JpaRepository<Gugun, Integer> {
 
 	List<Gugun> findAll();
 	List<Gugun> findBySidoCode(int sidoCode);
-
+	
+	Optional<Gugun> findBySidoCodeAndGugunCode(int sidoCode, int gugunCode);
 }
