@@ -10,5 +10,6 @@ import com.ssafy.maytrip.domain.Sido;
 public interface GugunRepository extends JpaRepository<Gugun, Integer> {
 
 	List<Gugun> findAll();
+	List<Gugun> findBySidoCode(int sidoCode);
 
 }

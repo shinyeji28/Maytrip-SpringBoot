@@ -32,4 +32,22 @@ public class GugunService {
 		}
 		return list;
 	}
+	
+	// sidoCode별 구군 조회
+	public List<GugunDto> getGugunBySidoCode(int sidoCode){
+		List<Gugun> gugun = gugunRepository.findBySidoCode(sidoCode);
+		List<GugunDto> list = new ArrayList<GugunDto>();
+		if(gugun!=null) {
+			for(Gugun row : gugun) {
+				GugunDto dto = null;
+				dto = GugunDto.builder()
+						.gugunCode(row.getGugunCode())
+						.gugunName(row.getGugunName())
+						.sidoCode(row.getSidoCode())
+						.build();
+				list.add(dto);
+			}
+		}
+		return list;
+	}
 }
