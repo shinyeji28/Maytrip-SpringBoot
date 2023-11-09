@@ -23,7 +23,6 @@ public class SidoController {
 	@GetMapping
 	public ResponseEntity<?> getAllSido(){
 		List<SidoDto> sido = sidoService.getAllSido();
-		System.out.println(sido);
 		if(sido != null ) {
 			return ResponseEntity.ok(sido);
 		}

@@ -1,5 +1,6 @@
 package com.ssafy.maytrip.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class SidoService {
 	
 	public List<SidoDto> getAllSido(){
 		List<SidoEntity> sido = sidoRepository.findAll();
-		List<SidoDto> list = null;
+		List<SidoDto> list = new ArrayList<SidoDto>();
 		if(sido!=null) {
 			for(SidoEntity row : sido) {
 				SidoDto dto = null;
