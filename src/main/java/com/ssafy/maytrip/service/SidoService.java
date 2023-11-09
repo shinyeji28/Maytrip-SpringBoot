@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.maytrip.domain.SidoEntity;
+import com.ssafy.maytrip.domain.Sido;
 import com.ssafy.maytrip.dto.SidoDto;
 import com.ssafy.maytrip.repository.SidoRepository;
 
@@ -19,10 +19,10 @@ public class SidoService {
 	private final SidoRepository sidoRepository;
 	
 	public List<SidoDto> getAllSido(){
-		List<SidoEntity> sido = sidoRepository.findAll();
+		List<Sido> sido = sidoRepository.findAll();
 		List<SidoDto> list = new ArrayList<SidoDto>();
 		if(sido!=null) {
-			for(SidoEntity row : sido) {
+			for(Sido row : sido) {
 				SidoDto dto = null;
 				dto = SidoDto.builder()
 						.sidoCode(row.getSidoCode())

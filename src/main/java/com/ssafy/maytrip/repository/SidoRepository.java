@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ssafy.maytrip.domain.SidoEntity;
+import com.ssafy.maytrip.domain.Sido;
 
-public interface SidoRepository extends JpaRepository<SidoEntity, Integer> {
+public interface SidoRepository extends JpaRepository<Sido, Integer> {
 
-	List<SidoEntity> findAll();
+	List<Sido> findAll();
 
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name="sido")
-public class SidoEntity {
+public class Sido {
 
     @Id
     @NotNull
@@ -27,7 +27,7 @@ public class SidoEntity {
     private String sidoName;
 
     @Builder
-	public SidoEntity(int sidoCode, String sidoName) {
+	public Sido(int sidoCode, String sidoName) {
 		super();
 		this.sidoCode = sidoCode;
 		this.sidoName = sidoName;
