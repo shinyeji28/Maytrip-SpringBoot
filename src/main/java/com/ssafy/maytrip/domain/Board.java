@@ -1,5 +1,6 @@
 package com.ssafy.maytrip.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -34,9 +35,9 @@ public class Board {
 
 	private String content;
 
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 	
-	private LocalDateTime endDate;
+	private LocalDate endDate;
 
 	private int headcount;
 	

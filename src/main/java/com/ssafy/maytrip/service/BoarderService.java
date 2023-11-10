@@ -1,5 +1,8 @@
 package com.ssafy.maytrip.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.maytrip.domain.Board;
@@ -38,5 +41,14 @@ public class BoarderService {
 				.build();
 		
 		return boardRepository.save(board).getId();
+	}
+
+	public List<BoardDto> selectAll() {
+		List<Board> boards = boardRepository.findAll();
+		List<BoardDto> boardDtos = new ArrayList<BoardDto>();
+		for(Board board : boards) {
+			boardDtos.add(new BoardDto());
+		}
+		return boardDtos;
 	}
 }
