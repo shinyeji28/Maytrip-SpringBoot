@@ -11,8 +11,8 @@ import com.ssafy.maytrip.domain.GugunId;
 public interface GugunRepository extends JpaRepository<Gugun, GugunId> {
 
 	List<Gugun> findAll();
-
-	List<Gugun> findAllByGugunIdSidoCode(int sidoCode);
 	
-	Optional<Gugun> findByGugunIdSidoCodeAndGugunIdGugunCode(int sidoCode, int gugunCode);
+	List<Gugun> findAllByGugunIdSidoSidoCode(int sidoCode);
+	
+	Optional<Gugun> findByGugunIdSidoSidoCodeAndGugunIdGugunCode(int sidoCode, int gugunCode);
 }
