@@ -34,10 +34,14 @@ public class LoggingAspect {
 	@AfterReturning(pointcut = "allMethod()", returning = "result")
 	public void afterReturningLogging(JoinPoint jp, Object result) {
 		Signature s = jp.getSignature();
-		logger.debug("리턴 : {}, 반환값: {}", 
+//		logger.debug("리턴 : {}, 반환값: {}", 
+//				s.getDeclaringType().getSimpleName()+"."+
+//				s.getName(), 
+//				result);
+		logger.debug("리턴 : {}", 
 				s.getDeclaringType().getSimpleName()+"."+
-				s.getName(), 
-				result);
+				s.getName() 
+				);
 		
 	}
 }

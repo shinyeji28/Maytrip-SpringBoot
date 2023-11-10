@@ -6,12 +6,13 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ssafy.maytrip.domain.Gugun;
-import com.ssafy.maytrip.domain.Sido;
+import com.ssafy.maytrip.domain.GugunId;
 
-public interface GugunRepository extends JpaRepository<Gugun, Integer> {
+public interface GugunRepository extends JpaRepository<Gugun, GugunId> {
 
 	List<Gugun> findAll();
-	List<Gugun> findBySidoCode(int sidoCode);
+
+	List<Gugun> findAllByGugunIdSidoCode(int sidoCode);
 	
-	Optional<Gugun> findBySidoCodeAndGugunCode(int sidoCode, int gugunCode);
+	Optional<Gugun> findByGugunIdSidoCodeAndGugunIdGugunCode(int sidoCode, int gugunCode);
 }
