@@ -25,7 +25,7 @@ public class GugunService {
 				dto = GugunDto.builder()
 						.gugunCode(row.getGugunId().getGugunCode())
 						.gugunName(row.getGugunName())
-						.sidoCode(row.getGugunId().getSidoCode())
+						.sidoCode(row.getGugunId().getSido().getSidoCode())
 						.build();
 				list.add(dto);
 			}
@@ -35,7 +35,7 @@ public class GugunService {
 	
 	// sidoCode별 구군 조회
 	public List<GugunDto> getGugunBySidoCode(int sidoCode){
-		List<Gugun> gugun = gugunRepository.findAllByGugunIdSidoCode(sidoCode);
+		List<Gugun> gugun = gugunRepository.findAllByGugunIdSidoSidoCode(sidoCode);
 		List<GugunDto> list = new ArrayList<GugunDto>();
 		if(gugun!=null) {
 			for(Gugun row : gugun) {
@@ -43,7 +43,7 @@ public class GugunService {
 				dto = GugunDto.builder()
 						.gugunCode(row.getGugunId().getGugunCode())
 						.gugunName(row.getGugunName())
-						.sidoCode(row.getGugunId().getSidoCode())
+						.sidoCode(row.getGugunId().getSido().getSidoCode())
 						.build();
 				list.add(dto);
 			}
