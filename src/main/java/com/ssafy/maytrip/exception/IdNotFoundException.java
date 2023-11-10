@@ -1,4 +1,4 @@
-package com.ssafy.maytrip.exception.handler;
+package com.ssafy.maytrip.exception;
 
 import org.springframework.http.HttpStatus;
 

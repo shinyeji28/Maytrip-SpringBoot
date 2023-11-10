@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.maytrip.domain.Board;
 import com.ssafy.maytrip.domain.Gugun;
-import com.ssafy.maytrip.domain.GugunId;
-import com.ssafy.maytrip.domain.Sido;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
-import com.ssafy.maytrip.exception.handler.IdNotFoundException;
+import com.ssafy.maytrip.exception.IdNotFoundException;
 import com.ssafy.maytrip.repository.BoardRepository;
 import com.ssafy.maytrip.repository.GugunRepository;
 
