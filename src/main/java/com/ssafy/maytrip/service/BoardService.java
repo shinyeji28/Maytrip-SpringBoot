@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.maytrip.domain.Board;
 import com.ssafy.maytrip.domain.Gugun;
@@ -48,6 +49,7 @@ public class BoardService {
 		return boardDtos;
 	}
 
+	@Transactional
 	public BoardResponse selectByBoardId(int boardId) {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
