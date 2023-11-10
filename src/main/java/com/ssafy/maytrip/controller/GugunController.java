@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.maytrip.dto.GugunDto;
-import com.ssafy.maytrip.dto.SidoDto;
 import com.ssafy.maytrip.service.GugunService;
 
 import lombok.RequiredArgsConstructor;
