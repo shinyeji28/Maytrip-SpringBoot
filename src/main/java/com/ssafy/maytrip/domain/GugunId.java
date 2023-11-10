@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 
 import com.sun.istack.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Embeddable
