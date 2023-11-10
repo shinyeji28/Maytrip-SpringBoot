@@ -33,8 +33,8 @@ public class AttractionInfoService {
 						.firstImage(row.getFirstImage())
 						.firstImage2(row.getFirstImage2())
 						.readcount(row.getReadcount())
-						.sidoCode(row.getSidoCode())
-						.gugunCode(row.getGugunCode())
+						.sidoCode(row.getGugun().getGugunId().getSido().getSidoCode())
+						.gugunCode(row.getGugun().getGugunId().getGugunCode())
 						.latitude(row.getLatitude())
 						.longitude(row.getLongitude())
 						.mlevel(row.getMlevel())
@@ -48,7 +48,7 @@ public class AttractionInfoService {
 	
 	// 시도, 구군 별 관광지 정보 조회
 	public List<AttractionInfoDto> getAttractionBySidoGugun(int sidoCode, int gugunCode){
-		List<AttractionInfo> attraction = attractionInfoRepository.findBySidoCodeAndGugunCode(sidoCode,gugunCode);
+		List<AttractionInfo> attraction = attractionInfoRepository.findByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCode(sidoCode,gugunCode);
 		List<AttractionInfoDto> list = new ArrayList<AttractionInfoDto>();
 		if(attraction!=null) {
 			for(AttractionInfo row : attraction) {
@@ -64,8 +64,8 @@ public class AttractionInfoService {
 						.firstImage(row.getFirstImage())
 						.firstImage2(row.getFirstImage2())
 						.readcount(row.getReadcount())
-						.sidoCode(row.getSidoCode())
-						.gugunCode(row.getGugunCode())
+						.sidoCode(row.getGugun().getGugunId().getSido().getSidoCode())
+						.gugunCode(row.getGugun().getGugunId().getGugunCode())
 						.latitude(row.getLatitude())
 						.longitude(row.getLongitude())
 						.mlevel(row.getMlevel())
