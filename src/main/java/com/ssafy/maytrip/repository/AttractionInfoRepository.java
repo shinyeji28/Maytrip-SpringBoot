@@ -11,4 +11,7 @@ public interface AttractionInfoRepository extends JpaRepository<AttractionInfo, 
 	
 	// 관관지 전체 정보 조회
 	List<AttractionInfo> findAll();
+	
+	// 시도, 구군으로 관광지 정보 조회
+	List<AttractionInfo> findBySidoCodeAndGugunCode(int sidoCode, int gugunCode);
 }
