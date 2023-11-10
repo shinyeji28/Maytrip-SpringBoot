@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.maytrip.domain.Board;
+import com.ssafy.maytrip.domain.Crew;
 import com.ssafy.maytrip.domain.Gugun;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
 import com.ssafy.maytrip.exception.IdNotFoundException;
 import com.ssafy.maytrip.repository.BoardRepository;
+import com.ssafy.maytrip.repository.CrewRepository;
 import com.ssafy.maytrip.repository.GugunRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,9 @@ public class BoardService {
 	
 	private final BoardRepository boardRepository;
 	private final GugunRepository gugunRepository;
-
+	private final CrewRepository crewRepository;
+	
+	@Transactional
 	public int regist(BoardRequest boardDto) {
 		Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(boardDto.getSidoCode(), boardDto.getGugunCode())
 				.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
@@ -35,6 +39,12 @@ public class BoardService {
 				.headcount(boardDto.getHeadcount())
 				.gugun(gugun)
 				.build();
+		
+		Crew crew = Crew.builder()
+				.board(board)
+				.crewName(board.getTitle())
+				.build();
+		crewRepository.save(crew);
 		
 		return boardRepository.save(board).getId();
 	}

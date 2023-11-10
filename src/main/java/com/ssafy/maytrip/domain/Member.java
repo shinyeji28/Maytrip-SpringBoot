@@ -20,7 +20,7 @@ public class Member {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_id")
-	private int memberId;
+	private int id;
 	
 	private String username;
 	private String password;
