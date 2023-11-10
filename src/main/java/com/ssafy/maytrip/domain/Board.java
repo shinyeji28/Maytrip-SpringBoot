@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
@@ -55,10 +56,13 @@ public class Board {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "sido_code")
-	private Sido sido;
-	
-	@ManyToOne
-	@JoinColumn(name= "gugun_code")
+	@JoinColumns({
+			@JoinColumn(name= "gugun_code", referencedColumnName = "gugun_code"),
+			@JoinColumn(name= "sido_code", referencedColumnName = "sido_code")
+	})
 	private Gugun gugun;
+	
+	public void updateViews() {
+		views++;
+	}
 }

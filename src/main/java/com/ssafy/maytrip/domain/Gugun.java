@@ -29,6 +29,4 @@ public class Gugun {
 	@Column(name="gugun_name")
 	private String gugunName;
 	
-
-
 }
