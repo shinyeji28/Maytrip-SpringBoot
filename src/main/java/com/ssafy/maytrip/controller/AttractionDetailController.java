@@ -16,22 +16,22 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/attraction")
+@RequestMapping("/z")
 public class AttractionDetailController {
 	
 	private final AttractionDetailService attractionDetailService;
 
-	@GetMapping("/cate")
-	public ResponseEntity<?> getAttractionByCategory(
-				@RequestParam String cat1,
-				@RequestParam String cat2,
-				@RequestParam String cat3
-			){
-		System.out.println(cat1+cat2+cat3);
-		List<AttractionDetailDto> attractions = attractionDetailService.getAttractionByCategory(cat1,cat2,cat3);
-		if(attractions != null) {
-			return ResponseEntity.ok(attractions);
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-	}
+//	@GetMapping("/cate")
+//	public ResponseEntity<?> getAttractionByCategory(
+//				@RequestParam String cat1,
+//				@RequestParam String cat2,
+//				@RequestParam String cat3
+//			){
+//		System.out.println(cat1+cat2+cat3);
+//		List<AttractionDetailDto> attractions = attractionDetailService.getAttractionByCategory(cat1,cat2,cat3);
+//		if(attractions != null) {
+//			return ResponseEntity.ok(attractions);
+//		}
+//		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//	}
 }

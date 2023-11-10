@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.maytrip.dto.AttractionDetailDto;
 import com.ssafy.maytrip.dto.AttractionInfoDto;
 import com.ssafy.maytrip.service.AttractionInfoService;
 
@@ -37,6 +38,19 @@ public class AttractionInfoController {
 				@RequestParam(value="gugun") int gugunCode
 			){
 		List<AttractionInfoDto> attractions = attractionInfoService.getAttractionBySidoGugun(sidoCode, gugunCode);
+		if(attractions != null) {
+			return ResponseEntity.ok(attractions);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+	
+	@GetMapping("/cate")
+	public ResponseEntity<?> getAttractionByCategory(
+				@RequestParam String cat1,
+				@RequestParam String cat2,
+				@RequestParam String cat3
+			){
+		List<AttractionInfoDto> attractions = attractionInfoService.getAttractionByCategory(cat1,cat2,cat3);
 		if(attractions != null) {
 			return ResponseEntity.ok(attractions);
 		}
