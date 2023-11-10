@@ -11,6 +11,6 @@ public interface GugunRepository extends JpaRepository<Gugun, GugunId> {
 
 	List<Gugun> findAll();
 	
-	List<Gugun> findAllByGugunIdSidoCode(int sidoCode);
+	List<Gugun> findAllByGugunIdSidoSidoCode(int sidoCode);
 
 }
