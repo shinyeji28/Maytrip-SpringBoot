@@ -6,12 +6,16 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.maytrip.domain.AttractionDescription;
 import com.ssafy.maytrip.dto.AttractionDetailDto;
 import com.ssafy.maytrip.dto.AttractionInfoDto;
+import com.ssafy.maytrip.dto.response.AttractionDescriptionResponse;
+import com.ssafy.maytrip.service.AttractionDescriptionService;
 import com.ssafy.maytrip.service.AttractionInfoService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class AttractionInfoController {
 	
 	private final AttractionInfoService attractionInfoService;
-	
+	private final AttractionDescriptionService attractionDescriptionService;
+
 	@GetMapping
 	public ResponseEntity<?> getAllAttraction(){
 		List<AttractionInfoDto> attractions = attractionInfoService.getAllAttraction();
@@ -64,6 +69,13 @@ public class AttractionInfoController {
 			){
 		List<AttractionInfoDto> attractions = attractionInfoService.getAttractionByWord(key, word);
 		return ResponseEntity.ok(attractions);
+	}
+	
+	@GetMapping("/detail/{contentId}")
+	public ResponseEntity<?> getDescriptionByContentId(@PathVariable(value="contentId") int contentId){
+		AttractionDescriptionResponse description = attractionDescriptionService.getOverviewByContentId(contentId);
+		return ResponseEntity.ok(description);
+
 	}
 	
 }
