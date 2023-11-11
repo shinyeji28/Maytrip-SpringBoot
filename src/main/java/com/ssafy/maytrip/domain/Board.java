@@ -4,15 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -61,6 +53,13 @@ public class Board {
 			@JoinColumn(name= "sido_code", referencedColumnName = "sido_code")
 	})
 	private Gugun gugun;
+
+	@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+
+	@OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Crew crew;
 	
 	public void updateViews() {
 		views++;
