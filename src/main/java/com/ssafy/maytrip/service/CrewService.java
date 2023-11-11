@@ -1,5 +1,6 @@
 package com.ssafy.maytrip.service;
 
+import com.ssafy.maytrip.dto.response.MemberResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,10 @@ import com.ssafy.maytrip.repository.CrewRepository;
 import com.ssafy.maytrip.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +49,9 @@ public class CrewService {
 	public CrewResponse selectById(int crewId) {
 		Crew crew = crewRepository.findById(crewId)
 				.orElseThrow(() -> new IdNotFoundException("크루를 찾을 수 없습니다."));
-		
-		return CrewResponse.from(crew);
+		List<Member> members = crewMappingRepository.findAllByCrewId(crew.getId())
+				.stream().map(CrewMapping::getMember).collect(Collectors.toList());
+		return CrewResponse.from(crew, members);
 	}
 
 	public void delete(int crewId) {
@@ -73,5 +79,15 @@ public class CrewService {
 		
 		crewMappingRepository.delete(crewMapping);
 	}
-	
+
+	public List<CrewResponse> selectAllByMemberId(int memberId) {
+		List<CrewMapping> crewMappings = crewMappingRepository.findAllByMemberId(memberId);
+		List<CrewResponse> crews = new ArrayList<>();
+		for(CrewMapping mapping : crewMappings) {
+			Crew crew = crewRepository.findById(mapping.getCrew().getId())
+					.orElseThrow(() -> new IdNotFoundException("회원이 속한 그룹을 찾을 수 없습니다."));
+			crews.add(CrewResponse.from(crew));
+		}
+		return crews;
+	}
 }

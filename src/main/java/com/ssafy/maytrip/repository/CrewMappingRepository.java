@@ -1,5 +1,6 @@
 package com.ssafy.maytrip.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,7 @@ public interface CrewMappingRepository extends JpaRepository<CrewMapping, Intege
 
 	Optional<CrewMapping> findByCrewIdAndMemberId(int crewId, int memberId);
 
+    List<CrewMapping> findAllByMemberId(int memberId);
+
+    List<CrewMapping> findAllByCrewId(int id);
 }

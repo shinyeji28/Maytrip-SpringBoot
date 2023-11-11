@@ -1,19 +1,14 @@
 package com.ssafy.maytrip.domain;
 
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,7 +26,10 @@ public class Crew {
 		
 	private int cost;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "board_id")
 	private Board board;
+
+	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CrewMapping> crewMappings;
 }
