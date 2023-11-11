@@ -43,4 +43,12 @@ public interface AttractionInfoRepository extends JpaRepository<AttractionInfo, 
             + "ON ai.content_id = ad.content_id "
             + "WHERE ad.cat1 = :cat1", nativeQuery = true)
     List<AttractionInfo> findAllByCat1(@Param("cat1") String cat1);
+    
+    // 부분 관광지명으로 관광지 정보 조회
+    @Query("SELECT a FROM AttractionInfo a WHERE a.title LIKE %:word%")
+    List<AttractionInfo> findAllByTitle(@Param("word") String word);
+    
+    // 부분 도로명으로 관광지 정보 조회
+    @Query("SELECT a FROM AttractionInfo a WHERE a.addr1 LIKE %:word%")
+    List<AttractionInfo> findAllByAddr1(@Param("word") String word);
 }

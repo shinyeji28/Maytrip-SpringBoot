@@ -117,5 +117,41 @@ public class AttractionInfoService {
 		}
 		return list;
 	}
+	
+	// 단어로 관광지 정보 조회
+	public List<AttractionInfoDto> getAttractionByWord(String key, String word){
+		List<AttractionInfo> attraction = null;
+		if("title".equals(key)) {
+			attraction = attractionInfoRepository.findAllByTitle(word);			
+		}else if("address".equals(key)) {
+			attraction = attractionInfoRepository.findAllByAddr1(word);			
+		}
+		List<AttractionInfoDto> list = new ArrayList<AttractionInfoDto>(); 
+		if(!attraction.isEmpty()) {
+			for(AttractionInfo row : attraction) {
+				AttractionInfoDto dto = null;
+				dto = AttractionInfoDto.builder()
+						.contentId(row.getContentId())
+						.contentTypeId(row.getContentTypeId())
+						.title(row.getTitle())
+						.addr1(row.getAddr1())
+						.addr2(row.getAddr2())
+						.zipcode(row.getZipcode())
+						.tel(row.getTel())
+						.firstImage(row.getFirstImage())
+						.firstImage2(row.getFirstImage2())
+						.readcount(row.getReadcount())
+						.sidoCode(row.getGugun().getGugunId().getSido().getSidoCode())
+						.gugunCode(row.getGugun().getGugunId().getGugunCode())
+						.latitude(row.getLatitude())
+						.longitude(row.getLongitude())
+						.mlevel(row.getMlevel())
+						.build();
+				list.add(dto);
+			}
+		}
+		return list;
+	}
+	
 }
 

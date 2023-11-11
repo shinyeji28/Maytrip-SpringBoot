@@ -56,4 +56,14 @@ public class AttractionInfoController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+	
+	@GetMapping("/keyword")
+	public ResponseEntity<?> getAtrractionByKeyword(
+				@RequestParam String key,
+				@RequestParam String word
+			){
+		List<AttractionInfoDto> attractions = attractionInfoService.getAttractionByWord(key, word);
+		return ResponseEntity.ok(attractions);
+	}
+	
 }
