@@ -29,8 +29,12 @@ public class AttractionInfoController {
 	private final AttractionDescriptionService attractionDescriptionService;
 
 	@GetMapping
-	public ResponseEntity<?> getAllAttraction(){
-		List<AttractionInfoDto> attractions = attractionInfoService.getAllAttraction();
+	public ResponseEntity<?> getAllAttraction(
+			@RequestParam(value="lat") double lat,
+			@RequestParam(value="lon") double lon,
+			@RequestParam(value="nkm") double radiusInKm
+			){
+		List<AttractionInfoDto> attractions = attractionInfoService.getAllAttraction(lat, lon, radiusInKm);
 		if(attractions != null) {
 			return ResponseEntity.ok(attractions);
 		}

@@ -18,8 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class AttractionInfoService {
 	private final AttractionInfoRepository attractionInfoRepository;
 	
-	public List<AttractionInfoDto> getAllAttraction(){
-		List<AttractionInfo> attraction = attractionInfoRepository.findAll();
+	public List<AttractionInfoDto> getAllAttraction(double lat, double lon, double radiusInKm){
+		List<AttractionInfo> attraction = attractionInfoRepository.findAllByLatAndLon(lat, lon, radiusInKm);
 		List<AttractionInfoDto> list = new ArrayList<AttractionInfoDto>();
 		if(attraction!=null) {
 			for(AttractionInfo row : attraction) {

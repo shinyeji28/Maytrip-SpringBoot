@@ -12,8 +12,13 @@ import com.ssafy.maytrip.domain.AttractionInfo;
 
 public interface AttractionInfoRepository extends JpaRepository<AttractionInfo, Integer> {
 	
-	// 관관지 전체 정보 조회
-	List<AttractionInfo> findAll();
+	// 반경 Nkm 이내 관광지 전체 정보 조회	
+    @Query("SELECT t FROM AttractionInfo t " +
+            "WHERE (6371 * acos(cos(radians(:centerLatitude)) * cos(radians(t.latitude)) * cos(radians(t.longitude) - radians(:centerLongitude)) + sin(radians(:centerLatitude)) * sin(radians(t.latitude)))) <= :radiusInKm")
+    List<AttractionInfo> findAllByLatAndLon(
+    		@Param("lat") double centerLatitude,
+            @Param("lon") double centerLongitude,
+            @Param("radiusInKm") double radiusInKm);
 	
 	// 시도, 구군으로 관광지 정보 조회
 	List<AttractionInfo> findByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCode(int sidoCode, int gugunCode);
