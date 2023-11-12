@@ -1,18 +1,14 @@
 package com.ssafy.maytrip.domain;
 
-import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,12 +23,13 @@ public class Crew {
 	
 	@Column(name="crew_name")
 	private String crewName;
-	
-	private LocalDateTime startDate;
-	
-	private LocalDateTime endDate;
-	
+		
 	private int cost;
 	
+	@OneToOne
+	@JoinColumn(name = "board_id")
+	private Board board;
 
+	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CrewMapping> crewMappings;
 }

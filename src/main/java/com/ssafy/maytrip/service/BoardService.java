@@ -3,16 +3,14 @@ package com.ssafy.maytrip.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssafy.maytrip.domain.*;
+import com.ssafy.maytrip.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.maytrip.domain.Board;
-import com.ssafy.maytrip.domain.Gugun;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
 import com.ssafy.maytrip.exception.IdNotFoundException;
-import com.ssafy.maytrip.repository.BoardRepository;
-import com.ssafy.maytrip.repository.GugunRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,11 +20,17 @@ public class BoardService {
 	
 	private final BoardRepository boardRepository;
 	private final GugunRepository gugunRepository;
-
+	private final CrewRepository crewRepository;
+	private final MemberRepository memberRepository;
+	private final CrewMappingRepository crewMappingRepository;
+	
+	@Transactional
 	public int regist(BoardRequest boardDto) {
 		Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(boardDto.getSidoCode(), boardDto.getGugunCode())
 				.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
-		
+		Member member = memberRepository.findById(boardDto.getMemberId())
+				.orElseThrow(() -> new IdNotFoundException("회원이 존재하지 않습니다."));
+
 		Board board = Board.builder()
 				.title(boardDto.getTitle())
 				.content(boardDto.getContent())
@@ -34,9 +38,20 @@ public class BoardService {
 				.endDate(boardDto.getEndDate())
 				.headcount(boardDto.getHeadcount())
 				.gugun(gugun)
+				.member(member)
+				.crew(Crew.builder()
+						.crewName(boardDto.getTitle())
+						.build())
 				.build();
-		
-		return boardRepository.save(board).getId();
+		board = boardRepository.save(board);
+
+		CrewMapping crewMapping = CrewMapping.builder()
+				.crew(board.getCrew())
+				.member(member)
+				.build();
+		crewMappingRepository.save(crewMapping);
+
+		return board.getId();
 	}
 
 	public List<BoardResponse> selectAll() {

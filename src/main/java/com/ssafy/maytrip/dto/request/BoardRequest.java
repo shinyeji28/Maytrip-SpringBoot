@@ -16,6 +16,8 @@ import lombok.Data;
 public class BoardRequest {
 	
 	private int id;
+
+	private int memberId;
 		
 	private String title;
 
