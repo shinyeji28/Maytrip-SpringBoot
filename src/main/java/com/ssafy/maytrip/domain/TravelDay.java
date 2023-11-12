@@ -33,4 +33,7 @@ public class TravelDay {
 	
 	@Column(name="date")
 	private LocalDateTime date;
+	
+	@Column(name="create_date")
+	private LocalDateTime createDate;
 }
