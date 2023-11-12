@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.maytrip.domain.AttractionDetail;
 import com.ssafy.maytrip.domain.AttractionInfo;
-import com.ssafy.maytrip.dto.AttractionDetailDto;
 import com.ssafy.maytrip.dto.AttractionInfoDto;
 import com.ssafy.maytrip.repository.AttractionInfoRepository;
 
@@ -50,7 +49,7 @@ public class AttractionInfoService {
 	
 	// 시도, 구군 별 관광지 정보 조회
 	public List<AttractionInfoDto> getAttractionBySidoGugun(int sidoCode, int gugunCode){
-		List<AttractionInfo> attraction = attractionInfoRepository.findByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCode(sidoCode,gugunCode);
+		List<AttractionInfo> attraction = attractionInfoRepository.findByGugunAndSido(sidoCode,gugunCode);
 		List<AttractionInfoDto> list = new ArrayList<AttractionInfoDto>();
 		if(attraction!=null) {
 			for(AttractionInfo row : attraction) {

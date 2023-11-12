@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.maytrip.domain.AttractionDescription;
-import com.ssafy.maytrip.dto.AttractionDetailDto;
 import com.ssafy.maytrip.dto.AttractionInfoDto;
 import com.ssafy.maytrip.dto.response.AttractionDescriptionResponse;
 import com.ssafy.maytrip.service.AttractionDescriptionService;
@@ -41,7 +40,7 @@ public class AttractionInfoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();	
 	}
 	
-	@GetMapping("/search")
+	@GetMapping("/region")
 	public ResponseEntity<?> getAttractionBySidoGugun(
 				@RequestParam(value="sido") int sidoCode,
 				@RequestParam(value="gugun") int gugunCode

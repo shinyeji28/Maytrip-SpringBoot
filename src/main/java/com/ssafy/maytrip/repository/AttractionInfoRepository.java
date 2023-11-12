@@ -21,7 +21,8 @@ public interface AttractionInfoRepository extends JpaRepository<AttractionInfo, 
             @Param("radiusInKm") double radiusInKm);
 	
 	// 시도, 구군으로 관광지 정보 조회
-	List<AttractionInfo> findByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCode(int sidoCode, int gugunCode);
+    @Query(value = "select * from attraction_info where gugun_code = :gugunCode and sido_code = :sidoCode", nativeQuery = true)
+	List<AttractionInfo> findByGugunAndSido(int sidoCode, int gugunCode);
 
 	// 카테고리로 관광지 정보 조회
     @Query(value = "select *"
