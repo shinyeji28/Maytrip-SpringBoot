@@ -3,6 +3,9 @@ package com.ssafy.maytrip.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -40,10 +43,18 @@ public class AttractionInfo {
 	@Column(name="first_image2", columnDefinition = "VARCHAR(200) DEFAULT 'null'")
 	private String firstImage2;
 	private int readcount;
-	@Column(name="sido_code")
-	private int sidoCode;
-	@Column(name="gugun_code")
-	private int gugunCode;
+	
+//	@ManyToOne
+//	@JoinColumn(name="sido_code", referencedColumnName = "sido_code")
+//	private Sido sido;
+	
+	@ManyToOne
+	@JoinColumns({
+		@JoinColumn(name="gugun_code", referencedColumnName = "gugun_code"),
+		@JoinColumn(name="sido_code", referencedColumnName = "sido_code")		
+	})
+	private Gugun gugun;
+	
 	@Column(columnDefinition = "DECIMAL(20,17) DEFAULT 'null'")
 	private double latitude;
 	@Column(columnDefinition = "DECIMAL(20,17) DEFAULT 'null'")
