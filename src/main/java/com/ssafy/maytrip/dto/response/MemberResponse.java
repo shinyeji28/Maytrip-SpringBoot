@@ -15,11 +15,19 @@ public class MemberResponse {
 
     private String name;
 
+    private String token;
+
     public static MemberResponse from(Member member) {
         return MemberResponse.builder()
                 .id(member.getId())
                 .username(member.getUsername())
                 .name(member.getName())
+                .build();
+    }
+
+    public static MemberResponse from(String token) {
+        return MemberResponse.builder()
+                .token(token)
                 .build();
     }
 }
