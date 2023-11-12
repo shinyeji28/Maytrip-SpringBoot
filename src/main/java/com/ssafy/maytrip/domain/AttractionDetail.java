@@ -1,6 +1,7 @@
 package com.ssafy.maytrip.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,9 +39,9 @@ public class AttractionDetail{
 	@Column(length=9)	
 	private String cat3;
 	@Column(name="created_time", length=14)	
-	private String createdTime;
+	private LocalDateTime createdTime;
 	@Column(name="modified_time", length=14)	
-	private String modifiedTime;
+	private LocalDateTime modifiedTime;
 	@Column(length=5)	
 	private String booktour;
 }
