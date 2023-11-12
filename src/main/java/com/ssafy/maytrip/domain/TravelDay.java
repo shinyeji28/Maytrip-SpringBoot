@@ -1,6 +1,6 @@
 package com.ssafy.maytrip.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="trave_day")
+@Table(name="travel_day")
 public class TravelDay {
 	
 	@Id 
@@ -32,8 +32,6 @@ public class TravelDay {
 	private Crew crew;
 	
 	@Column(name="date")
-	private LocalDateTime date;
+	private LocalDate date;
 	
-	@Column(name="create_date")
-	private LocalDateTime createDate;
 }
