@@ -13,6 +13,7 @@ import org.hibernate.annotations.ColumnDefault;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name="attraction_info")
 public class AttractionInfo {
 	@Id
