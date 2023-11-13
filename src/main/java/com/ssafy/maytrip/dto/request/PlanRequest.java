@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.maytrip.domain.DayDetail;
 import com.ssafy.maytrip.dto.response.AttractionDescriptionResponse;
+import com.ssafy.maytrip.dto.response.PlanResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -34,10 +36,8 @@ public class PlanRequest {
     @Builder
     @ToString
     public static class Day {
-    	
-    	@Schema(type = "string")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    	private int dayId;
+
     	private int day;        
     	
     	private List<Detail> details;
@@ -51,10 +51,16 @@ public class PlanRequest {
     @Builder
     @ToString
     public static class Detail {
-    	private int dayId;
+    	private int detailId;
         private int contentId;
         private int priority;
-
+        
+        public static PlanResponse.Detail from(DayDetail dayDetail) {
+        	return PlanResponse.Detail.builder()
+					.detailId(dayDetail.getDetailId())
+					.priority(dayDetail.getPriority())
+					.build();
+        }
     }
 
 }

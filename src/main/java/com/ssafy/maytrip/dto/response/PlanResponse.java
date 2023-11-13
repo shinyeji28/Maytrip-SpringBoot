@@ -59,13 +59,13 @@ public class PlanResponse {
     @Builder
     @ToString
     public static class Detail {
-    	private int dayId;
+    	private int detailId;
         private int contentId;
         private int priority;
         
         public static PlanResponse.Detail from(DayDetail dayDetail) {
         	return PlanResponse.Detail.builder()
-					.dayId(dayDetail.getDetailId())
+					.detailId(dayDetail.getDetailId())
 					.priority(dayDetail.getPriority())
 					.build();
         }
