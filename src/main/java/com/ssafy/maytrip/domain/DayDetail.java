@@ -30,7 +30,7 @@ public class DayDetail {
 	private TravelDay travelDay;
 	
 	@ManyToOne
-	@JoinColumn(name="content_id", nullable = false, referencedColumnName = "content_id")
+	@JoinColumn(name="content_id", referencedColumnName = "content_id")
 	private AttractionInfo attractionInfo;
 	
 	private int priority;
