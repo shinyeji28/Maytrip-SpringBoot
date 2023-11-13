@@ -1,4 +1,4 @@
-package com.ssafy.maytrip.dto;
+package com.ssafy.maytrip.dto.request;
 
 
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberDto {
+public class MemberRequest {
 
 	private int memberId;
 	private String username;

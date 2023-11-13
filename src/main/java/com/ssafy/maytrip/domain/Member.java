@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ssafy.maytrip.dto.request.MemberRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,4 +27,7 @@ public class Member {
 	private String password;
 	private String name;
 
+    public void update(MemberRequest memberRequest) {
+		this.name = memberRequest.getName();
+    }
 }
