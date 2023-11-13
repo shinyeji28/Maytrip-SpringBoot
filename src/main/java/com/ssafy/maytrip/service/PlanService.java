@@ -1,5 +1,6 @@
 package com.ssafy.maytrip.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import com.ssafy.maytrip.domain.Crew;
 import com.ssafy.maytrip.domain.DayDetail;
 import com.ssafy.maytrip.domain.TravelDay;
 import com.ssafy.maytrip.dto.request.PlanRequest;
+import com.ssafy.maytrip.dto.response.PlanResponse;
 import com.ssafy.maytrip.repository.DayDetailRepository;
 import com.ssafy.maytrip.repository.TravelDayRepository;
 
@@ -47,11 +49,41 @@ public class PlanService {
                         .attractionInfo(attractionInfo)
                         .priority(detail.getPriority())
                         .build();
-                
 
             	dayDetailRepository.save(dayDetail);
             }
         }
+	}
+	
+	@Transactional
+	public PlanResponse selectPlan(int crewId) {	
+		
+		List<TravelDay> travleDays = travelDayRepository.findAllByCrewId(crewId);
+		PlanResponse planResponse = new PlanResponse();
+		
+	    List<PlanResponse.Day> planDays = new ArrayList<>();
+		for(TravelDay day : travleDays) {
+			List<PlanResponse.Detail> planDetails = new ArrayList<>();
+			
+			for(DayDetail detail : day.getDayDetails()) {
+				System.out.println(detail);
+				// 여행 일정에 대한 세부사항을 PlanResponse.Day 객체로 매핑				
+	            planDetails.add(PlanResponse.Detail.from(detail));
+			}
+
+	        // 여행 일정을 PlanResponse.Day 객체로 매핑
+	        planDays.add(PlanResponse.Day.from(day, planDetails));
+		}
+		
+		PlanResponse resultDto = PlanResponse.builder()
+				.days(planDays)
+				.build();
+		return resultDto;
+		
+	}
+	
+	@Transactional
+	public void updatePlan(PlanRequest planRequest) {
 	}
 	
 	
