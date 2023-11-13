@@ -14,12 +14,4 @@ import org.springframework.data.jpa.repository.Query;
 import com.ssafy.maytrip.domain.TravelDay;
 
 public interface TravelDayRepository extends JpaRepository<TravelDay, Integer> {
-	
-	// 여행 일정 등록
-    @Modifying
-    @Query(value = "INSERT INTO TravelDay (crew_id, date) VALUES (:crewId, :date)", nativeQuery = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
-    @Column(name = "day_id")
-    int insertTravelDay(@Param("crewId") int crewId, @Param("date") LocalDate date);
-    
 }

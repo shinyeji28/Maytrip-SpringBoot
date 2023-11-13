@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.maytrip.domain.AttractionInfo;
+import com.ssafy.maytrip.domain.Crew;
 import com.ssafy.maytrip.domain.DayDetail;
 import com.ssafy.maytrip.domain.TravelDay;
 import com.ssafy.maytrip.dto.request.PlanRequest;
@@ -28,17 +29,27 @@ public class PlanService {
 
         for (PlanRequest.Day day : days) {
             // travelDay를 저장하고 travelDay의 ID를 얻어옴
-            int travelDayId = travelDayRepository.insertTravelDay(planRequest.getCrewId(), day.getDate());
-
+        	TravelDay travelDay = TravelDay.builder()
+        			.crew(Crew.builder().id(planRequest.getCrewId()).build())
+        			.date(day.getDate())
+        			.build();
+        	int travelDayId = travelDayRepository.save(travelDay).getDayId();
+            
             // details를 저장
             for (PlanRequest.Detail detail : day.getDetails()) {
             	
-            	DayDetail detailDto = DayDetail.builder()
+                AttractionInfo attractionInfo = AttractionInfo.builder()
+                        .contentId(detail.getContentId())
+                        .build();
+                
+                DayDetail dayDetail = DayDetail.builder()
                         .travelDay(TravelDay.builder().dayId(travelDayId).build())
-            			.attractionInfo(AttractionInfo.builder().contentId(detail.getContentId()).build())
-            			.priority(detail.getPriority())
-            			.build();
-            	dayDetailRepository.save(detailDto);
+                        .attractionInfo(attractionInfo)
+                        .priority(detail.getPriority())
+                        .build();
+                
+
+            	dayDetailRepository.save(dayDetail);
             }
         }
 	}
