@@ -38,7 +38,7 @@ public class PlanRequest {
     	@Schema(type = "string")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    	private LocalDate date;        
+    	private int day;        
     	
     	private List<Detail> details;
 

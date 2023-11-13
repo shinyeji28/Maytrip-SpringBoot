@@ -1,6 +1,5 @@
 package com.ssafy.maytrip.domain;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -44,8 +43,7 @@ public class TravelDay {
 	private List<DayDetail> dayDetails;
     
 	
-	@Column(name="date")
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private LocalDate date;
+	@Column(name="day")
+	private int day;        
 	 
 }

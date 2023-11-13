@@ -33,7 +33,7 @@ public class PlanService {
             // travelDay를 저장하고 travelDay의 ID를 얻어옴
         	TravelDay travelDay = TravelDay.builder()
         			.crew(Crew.builder().id(planRequest.getCrewId()).build())
-        			.date(day.getDate())
+        			.day(day.getDay())
         			.build();
         	int travelDayId = travelDayRepository.save(travelDay).getDayId();
             

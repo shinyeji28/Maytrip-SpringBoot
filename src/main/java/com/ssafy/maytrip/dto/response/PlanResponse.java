@@ -38,17 +38,14 @@ public class PlanResponse {
     	
     	private int dayId;
     	
-    	@Schema(type = "string")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    	private LocalDate date;        
+    	private int day;        
     	
     	private List<Detail> details;
     	
     	public static PlanResponse.Day from(TravelDay travelDay, List<PlanResponse.Detail> planDetails){
     		return PlanResponse.Day.builder()
 	                .dayId(travelDay.getDayId())
-	                .date(travelDay.getDate())
+	                .day(travelDay.getDay())
 	                .details(planDetails)
 	                .build();
     	}
