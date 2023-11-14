@@ -21,6 +21,9 @@ public class Crew {
 	@Column(name = "crew_id")
 	private int id;
 	
+    @OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TravelDay> travelDays;
+	
 	@Column(name="crew_name")
 	private String crewName;
 		
@@ -32,4 +35,5 @@ public class Crew {
 
 	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CrewMapping> crewMappings;
+	
 }
