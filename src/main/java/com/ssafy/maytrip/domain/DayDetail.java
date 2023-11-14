@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name="day_detail")
 public class DayDetail {
 	
@@ -28,8 +30,9 @@ public class DayDetail {
 	private TravelDay travelDay;
 	
 	@ManyToOne
-	@JoinColumn(name="content_id", nullable = false, referencedColumnName = "content_id")
-	private AttractionInfo contentId;
+	@JoinColumn(name="content_id", referencedColumnName = "content_id")
+	private AttractionInfo attractionInfo;
 	
 	private int priority;
+
 }
