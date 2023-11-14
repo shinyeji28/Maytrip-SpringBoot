@@ -1,7 +1,9 @@
 package com.ssafy.maytrip.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.maytrip.dto.request.BoardRequest;
@@ -32,10 +35,17 @@ public class BoardController {
 		return ResponseEntity.ok(savedId);
 	}
 	
+//	@GetMapping
+//	public ResponseEntity<List<BoardResponse>> selectAll() {
+//		List<BoardResponse> list = boardService.selectAll();
+//		return ResponseEntity.ok(list);
+//	}
+	
 	@GetMapping
-	public ResponseEntity<List<BoardResponse>> selectAll() {
-		List<BoardResponse> list = boardService.selectAll();
-		return ResponseEntity.ok(list);
+	public ResponseEntity<?> listBoard(@RequestParam Map<String, String> map) {
+
+		List<BoardResponse> boardList = boardService.getListBoard(map);
+		return ResponseEntity.ok(boardList);
 	}
 	
 	@GetMapping("/{boardId}")

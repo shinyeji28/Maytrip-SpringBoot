@@ -1,10 +1,15 @@
 package com.ssafy.maytrip.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.maytrip.domain.*;
 import com.ssafy.maytrip.repository.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,6 +100,27 @@ public class BoardService {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
 		boardRepository.delete(board);
+	}
+	
+	public List<BoardResponse> getListBoard(Map<String, String> map){
+
+		int currentPage = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno")) - 1;
+	    int sizePerPage = Integer.parseInt(map.get("spp") == null ? "20" : map.get("spp"));
+
+	    // PageRequest를 사용하여 페이징 및 정렬 설정 (currentPage는 0부터 시작하므로 1을 뺍니다)
+	    PageRequest pageRequest = PageRequest.of(currentPage, sizePerPage);
+		
+		// 요청 보내기
+	    Page<Board> boardPage = boardRepository.findAll(pageRequest);
+		
+	    List<BoardResponse> boardList = new ArrayList<>();
+		for(Board board : boardPage) {
+			BoardResponse boardResponse = BoardResponse.from(board);
+			boardList.add(boardResponse);
+		}
+
+
+		return boardList;
 	}
 	
 }
