@@ -1,6 +1,5 @@
 package com.ssafy.maytrip.service;
 
-import com.ssafy.maytrip.dto.response.MemberResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +38,6 @@ public class CrewService {
 		Crew crew = Crew.builder()
 				.id(crewRequest.getId())
 				.crewName(crewRequest.getCrewName())
-				.cost(crewRequest.getCost())
 				.board(board)
 				.build();
 		crew = crewRepository.save(crew);
@@ -51,7 +49,7 @@ public class CrewService {
 				.orElseThrow(() -> new IdNotFoundException("크루를 찾을 수 없습니다."));
 		List<Member> members = crewMappingRepository.findAllByCrewId(crew.getId())
 				.stream().map(CrewMapping::getMember).collect(Collectors.toList());
-		return CrewResponse.from(crew, members);
+		return CrewResponse.from(crew, crew.getBoard(), members);
 	}
 
 	public void delete(int crewId) {
@@ -86,7 +84,8 @@ public class CrewService {
 		for(CrewMapping mapping : crewMappings) {
 			Crew crew = crewRepository.findById(mapping.getCrew().getId())
 					.orElseThrow(() -> new IdNotFoundException("회원이 속한 그룹을 찾을 수 없습니다."));
-			crews.add(CrewResponse.from(crew));
+			Long count = crewMappingRepository.countByCrewId(crew.getId());
+			crews.add(CrewResponse.from(crew, crew.getBoard(), count));
 		}
 		return crews;
 	}

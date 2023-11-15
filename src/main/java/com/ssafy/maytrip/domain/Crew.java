@@ -26,9 +26,7 @@ public class Crew {
 	
 	@Column(name="crew_name")
 	private String crewName;
-		
-	private int cost;
-	
+			
 	@OneToOne
 	@JoinColumn(name = "board_id")
 	private Board board;
