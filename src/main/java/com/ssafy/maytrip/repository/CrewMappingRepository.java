@@ -14,4 +14,6 @@ public interface CrewMappingRepository extends JpaRepository<CrewMapping, Intege
     List<CrewMapping> findAllByMemberId(int memberId);
 
     List<CrewMapping> findAllByCrewId(int id);
+
+	Long countByCrewId(int id);
 }
