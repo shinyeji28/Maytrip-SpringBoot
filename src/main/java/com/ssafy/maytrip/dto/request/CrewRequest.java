@@ -11,5 +11,4 @@ public class CrewRequest {
 	
 	private String crewName;
 	
-	private int cost;
 }

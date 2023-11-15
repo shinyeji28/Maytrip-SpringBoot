@@ -44,14 +44,16 @@ public class BoardService {
 				.headcount(boardDto.getHeadcount())
 				.gugun(gugun)
 				.member(member)
-				.crew(Crew.builder()
-						.crewName(boardDto.getTitle())
-						.build())
 				.build();
 		board = boardRepository.save(board);
-
+		Crew crew = crewRepository.save(
+				Crew.builder()
+				.crewName(board.getTitle())
+				.board(board)
+				.build());
+		
 		CrewMapping crewMapping = CrewMapping.builder()
-				.crew(board.getCrew())
+				.crew(crew)
 				.member(member)
 				.build();
 		crewMappingRepository.save(crewMapping);
