@@ -61,10 +61,10 @@ public class BoardService {
 		return board.getId();
 	}
 
-	public List<BoardResponse> selectAll(int sidoCode, int gugunCode) {
+	public List<BoardResponse> selectAll(Integer sidoCode, Integer gugunCode) {
 		List<Board> boards = null;
 
-		if(sidoCode!=0 && gugunCode!=0) {
+		if(sidoCode!=null && gugunCode!=null) {
 			Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(sidoCode,gugunCode)
 					.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
 			Board board = Board.builder().gugun(gugun).build();

@@ -37,10 +37,9 @@ public class BoardController {
 	
 	@GetMapping
 	public ResponseEntity<List<BoardResponse>> selectAll(
-			@RequestParam(name="sido", required = false) int sidoCode,
-			@RequestParam(name="gugun", required = false) int gugunCode
+			@RequestParam(name="sido", required = false) Integer sidoCode,
+			@RequestParam(name="gugun", required = false) Integer gugunCode
 			) {
-		
 		List<BoardResponse> list = boardService.selectAll(sidoCode, gugunCode);
 		return ResponseEntity.ok(list);
 	}
