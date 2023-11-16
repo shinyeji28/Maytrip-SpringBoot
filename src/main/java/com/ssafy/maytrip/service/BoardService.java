@@ -61,8 +61,17 @@ public class BoardService {
 		return board.getId();
 	}
 
-	public List<BoardResponse> selectAll() {
-		List<Board> boards = boardRepository.findAll();
+	public List<BoardResponse> selectAll(int sidoCode, int gugunCode) {
+		List<Board> boards = null;
+
+		if(sidoCode!=0 && gugunCode!=0) {
+			Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(sidoCode,gugunCode)
+					.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
+			Board board = Board.builder().gugun(gugun).build();
+			boards = boardRepository.findAllByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCode(gugunCode, sidoCode);
+		}else {
+			boards = boardRepository.findAll();
+		}
 		List<BoardResponse> boardDtos = new ArrayList<BoardResponse>();
 		for(Board board : boards) {
 			// Board 객체로 BoardResponse 생성

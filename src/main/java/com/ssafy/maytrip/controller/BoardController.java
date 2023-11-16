@@ -35,13 +35,19 @@ public class BoardController {
 		return ResponseEntity.ok(savedId);
 	}
 	
-//	@GetMapping
-//	public ResponseEntity<List<BoardResponse>> selectAll() {
-//		List<BoardResponse> list = boardService.selectAll();
-//		return ResponseEntity.ok(list);
-//	}
-	
 	@GetMapping
+	public ResponseEntity<List<BoardResponse>> selectAll(
+			@RequestParam(name="sido", required = false) int sidoCode,
+			@RequestParam(name="gugun", required = false) int gugunCode
+			) {
+		
+		List<BoardResponse> list = boardService.selectAll(sidoCode, gugunCode);
+		return ResponseEntity.ok(list);
+	}
+	
+	
+	
+	@GetMapping("/search")
 	public ResponseEntity<?> listBoard(@RequestParam Map<String, String> map) {
 
 		List<BoardResponse> boardList = boardService.getListBoard(map);
