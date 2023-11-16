@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemberResponse {
 
-    private int id;
+    private int memberId;
 
     private String username;
 
@@ -19,7 +19,7 @@ public class MemberResponse {
 
     public static MemberResponse from(Member member) {
         return MemberResponse.builder()
-                .id(member.getId())
+                .memberId(member.getId())
                 .username(member.getUsername())
                 .name(member.getName())
                 .build();
