@@ -21,7 +21,7 @@ public class JWTUtil {
 		long expirationSecond = 60*60*2;	//2시간
 
 		Claims claims = Jwts.claims();
-		claims.put("userId", member.getId());
+		claims.put("memberId", member.getId());
 		claims.put("username", member.getUsername());
 		claims.put("name", member.getName());
 //		claims.put("role", member.getRole());
