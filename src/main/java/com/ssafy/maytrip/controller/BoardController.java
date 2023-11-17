@@ -75,8 +75,7 @@ public class BoardController {
 		}
 		
 		int savedId = boardService.regist(boardDto);
-//		return ResponseEntity.ok(savedId);
-		return null;
+		return ResponseEntity.ok(savedId);
 	}
 	
 	public List<FileInfoDto> makeFileSource(List<MultipartFile> files) {

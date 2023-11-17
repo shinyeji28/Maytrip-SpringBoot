@@ -145,6 +145,7 @@ public class BoardService {
 			boards = boardRepository.findAll();
 		}
 		List<BoardResponse> boardDtos = new ArrayList<BoardResponse>();
+		
 		for(Board board : boards) {
 			// Board 객체로 BoardResponse 생성
 			boardDtos.add(BoardResponse.from(board));

@@ -2,11 +2,15 @@ package com.ssafy.maytrip.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.maytrip.domain.Board;
+import com.ssafy.maytrip.domain.FileInfo;
+import com.ssafy.maytrip.dto.FileInfoDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -43,7 +47,16 @@ public class BoardResponse {
 	
 	private int views;
 	
-	public static BoardResponse from(Board board) {
+	private FileInfoDto thumbnail;
+	private List<FileInfoDto> fileInfos;
+	
+	public static BoardResponse from(Board board) {	
+		if(board.getFileInfos() == null) return null;
+		List<FileInfoDto> files = new ArrayList<>();
+		for(FileInfo file : board.getFileInfos()) {
+			files.add(FileInfoDto.from(file));
+		}
+		
 		return BoardResponse.builder()
 				.id(board.getId())
 				.title(board.getTitle())
@@ -55,6 +68,9 @@ public class BoardResponse {
 				.views(board.getViews())
 				.sidoName(board.getGugun().getGugunId().getSido().getSidoName())
 				.gugunName(board.getGugun().getGugunName())
+				.thumbnail(FileInfoDto.from(board.getThumbnail()))
+				.fileInfos(files)
 				.build();
 	}
+	
 }
