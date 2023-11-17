@@ -1,21 +1,37 @@
 package com.ssafy.maytrip.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import com.ssafy.maytrip.domain.*;
-import com.ssafy.maytrip.repository.*;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.maytrip.domain.Board;
+import com.ssafy.maytrip.domain.Crew;
+import com.ssafy.maytrip.domain.CrewMapping;
+import com.ssafy.maytrip.domain.FileInfo;
+import com.ssafy.maytrip.domain.Gugun;
+import com.ssafy.maytrip.domain.Member;
+import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
 import com.ssafy.maytrip.exception.IdNotFoundException;
+import com.ssafy.maytrip.repository.BoardRepository;
+import com.ssafy.maytrip.repository.CrewMappingRepository;
+import com.ssafy.maytrip.repository.CrewRepository;
+import com.ssafy.maytrip.repository.FileInfoRepository;
+import com.ssafy.maytrip.repository.GugunRepository;
+import com.ssafy.maytrip.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +44,39 @@ public class BoardService {
 	private final CrewRepository crewRepository;
 	private final MemberRepository memberRepository;
 	private final CrewMappingRepository crewMappingRepository;
+	private final FileInfoRepository fileInfoRepository;
+
+//	@Transactional
+//	public int regist(BoardRequest boardDto) {
+//		Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(boardDto.getSidoCode(), boardDto.getGugunCode())
+//				.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
+//		Member member = memberRepository.findById(boardDto.getMemberId())
+//				.orElseThrow(() -> new IdNotFoundException("회원이 존재하지 않습니다."));
+//
+//		Board board = Board.builder()
+//				.title(boardDto.getTitle())
+//				.content(boardDto.getContent())
+//				.startDate(boardDto.getStartDate())
+//				.endDate(boardDto.getEndDate())
+//				.headcount(boardDto.getHeadcount())
+//				.gugun(gugun)
+//				.member(member)
+//				.build();
+//		board = boardRepository.save(board);
+//		Crew crew = crewRepository.save(
+//				Crew.builder()
+//				.crewName(board.getTitle())
+//				.board(board)
+//				.build());
+//		
+//		CrewMapping crewMapping = CrewMapping.builder()
+//				.crew(crew)
+//				.member(member)
+//				.build();
+//		crewMappingRepository.save(crewMapping);
+//
+//		return board.getId();
+//	}
 	
 	@Transactional
 	public int regist(BoardRequest boardDto) {
@@ -36,6 +85,15 @@ public class BoardService {
 		Member member = memberRepository.findById(boardDto.getMemberId())
 				.orElseThrow(() -> new IdNotFoundException("회원이 존재하지 않습니다."));
 
+		
+		FileInfo thumbfile = FileInfo.builder()
+				.saveFolder(boardDto.getThumbnail().getSaveFolder())
+				.saveFile(boardDto.getThumbnail().getSaveFile())
+				.originalFile(boardDto.getThumbnail().getOriginalFile())
+				.build();
+		
+		thumbfile = fileInfoRepository.save(thumbfile);
+		
 		Board board = Board.builder()
 				.title(boardDto.getTitle())
 				.content(boardDto.getContent())
@@ -44,8 +102,21 @@ public class BoardService {
 				.headcount(boardDto.getHeadcount())
 				.gugun(gugun)
 				.member(member)
+				.thumbnail(thumbfile)
 				.build();
 		board = boardRepository.save(board);
+		
+		for(FileInfoDto fileInfo : boardDto.getFileInfos()) {
+			FileInfo file = FileInfo.builder()
+					.saveFolder(fileInfo.getSaveFolder())
+					.saveFile(fileInfo.getSaveFile())
+					.originalFile(fileInfo.getOriginalFile())
+					.board(board)
+					.build();
+			fileInfoRepository.save(file);
+		}
+		
+		
 		Crew crew = crewRepository.save(
 				Crew.builder()
 				.crewName(board.getTitle())
@@ -60,6 +131,7 @@ public class BoardService {
 
 		return board.getId();
 	}
+	
 
 	public List<BoardResponse> selectAll(Integer sidoCode, Integer gugunCode) {
 		List<Board> boards = null;

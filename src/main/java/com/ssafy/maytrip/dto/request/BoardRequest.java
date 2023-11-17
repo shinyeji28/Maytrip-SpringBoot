@@ -1,10 +1,14 @@
 package com.ssafy.maytrip.dto.request;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.maytrip.domain.FileInfo;
+import com.ssafy.maytrip.dto.FileInfoDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -39,4 +43,7 @@ public class BoardRequest {
 	
 	private int gugunCode;
 	
+	private FileInfoDto thumbnail;
+	private List<FileInfoDto> fileInfos;
+
 }
