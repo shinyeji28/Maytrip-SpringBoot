@@ -58,8 +58,9 @@ public class BoardController {
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
 			@RequestParam(value="images", required = false) List<MultipartFile> files,
-			@RequestParam(value="image", required = false) List<MultipartFile> thumbnail) {
-		System.out.println();
+			@RequestParam(value="image", required = false) List<MultipartFile> thumbnail,
+            @RequestParam(value="id", required = false) Integer id) {
+
 		List<FileInfoDto> thumbFile = null;
 		List<FileInfoDto> fileInfos = null;
 		

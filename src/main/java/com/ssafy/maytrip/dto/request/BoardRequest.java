@@ -19,7 +19,7 @@ import lombok.Data;
 @Builder
 public class BoardRequest {
 	
-	private int id;
+	private Integer id;
 
 	private int memberId;
 		
