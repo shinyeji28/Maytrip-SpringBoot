@@ -84,16 +84,17 @@ public class BoardService {
 				.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
 		Member member = memberRepository.findById(boardDto.getMemberId())
 				.orElseThrow(() -> new IdNotFoundException("회원이 존재하지 않습니다."));
-
 		
-		FileInfo thumbfile = FileInfo.builder()
-				.saveFolder(boardDto.getThumbnail().getSaveFolder())
-				.saveFile(boardDto.getThumbnail().getSaveFile())
-				.originalFile(boardDto.getThumbnail().getOriginalFile())
-				.build();
-		
-		thumbfile = fileInfoRepository.save(thumbfile);
-		
+		FileInfo thumbfile = null;
+		if(boardDto.getThumbnail()!=null) {
+			thumbfile = FileInfo.builder()
+					.saveFolder(boardDto.getThumbnail().getSaveFolder())
+					.saveFile(boardDto.getThumbnail().getSaveFile())
+					.originalFile(boardDto.getThumbnail().getOriginalFile())
+					.build();
+			
+			thumbfile = fileInfoRepository.save(thumbfile);
+		}
 		Board board = Board.builder()
 				.title(boardDto.getTitle())
 				.content(boardDto.getContent())
@@ -106,14 +107,16 @@ public class BoardService {
 				.build();
 		board = boardRepository.save(board);
 		
-		for(FileInfoDto fileInfo : boardDto.getFileInfos()) {
-			FileInfo file = FileInfo.builder()
-					.saveFolder(fileInfo.getSaveFolder())
-					.saveFile(fileInfo.getSaveFile())
-					.originalFile(fileInfo.getOriginalFile())
-					.board(board)
-					.build();
-			fileInfoRepository.save(file);
+		if(board.getFileInfos()!=null) {
+			for(FileInfoDto fileInfo : boardDto.getFileInfos()) {
+				FileInfo file = FileInfo.builder()
+						.saveFolder(fileInfo.getSaveFolder())
+						.saveFile(fileInfo.getSaveFile())
+						.originalFile(fileInfo.getOriginalFile())
+						.board(board)
+						.build();
+				fileInfoRepository.save(file);
+			}
 		}
 		
 		
