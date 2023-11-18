@@ -132,7 +132,7 @@ public class BoardService {
 		return board.getId();
 	}
 	
-
+	@Transactional
 	public List<BoardResponse> selectAll(Integer sidoCode, Integer gugunCode) {
 		List<Board> boards = null;
 

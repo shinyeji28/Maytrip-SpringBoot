@@ -48,14 +48,10 @@ public class BoardResponse {
 	private int views;
 	
 	private FileInfoDto thumbnail;
+	
 	private List<FileInfoDto> fileInfos;
 	
 	public static BoardResponse from(Board board) {	
-		if(board.getFileInfos() == null) return null;
-		List<FileInfoDto> files = new ArrayList<>();
-		for(FileInfo file : board.getFileInfos()) {
-			files.add(FileInfoDto.from(file));
-		}
 		
 		return BoardResponse.builder()
 				.id(board.getId())
@@ -69,7 +65,7 @@ public class BoardResponse {
 				.sidoName(board.getGugun().getGugunId().getSido().getSidoName())
 				.gugunName(board.getGugun().getGugunName())
 				.thumbnail(FileInfoDto.from(board.getThumbnail()))
-				.fileInfos(files)
+				.fileInfos(FileInfoDto.listFrom(board.getFileInfos()))
 				.build();
 	}
 	
