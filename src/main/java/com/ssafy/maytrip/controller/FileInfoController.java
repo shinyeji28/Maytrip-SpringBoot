@@ -39,11 +39,12 @@ public class FileInfoController {
 	}
 	
 	public Map<String, Object> toImageUrl(FileInfoResponse file) {
-		String fileUrl = uploadPath + file.getSaveFolder() + file.getSaveFile();
+		String fileUrl = uploadPath + file.getSaveFolder() +"/"+ file.getSaveFile();
 		
 	    Map<String, Object> imageInfo = new HashMap<>();
 	    imageInfo.put("id", file.getFileId());
 	    imageInfo.put("url", fileUrl);
+	    imageInfo.put("originImageName", file.getOriginalFile());
 	    return imageInfo;	
 	   }
 	
