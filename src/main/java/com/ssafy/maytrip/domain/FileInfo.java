@@ -1,11 +1,14 @@
 package com.ssafy.maytrip.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -18,22 +21,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="day_detail")
-public class DayDetail {
-	
+@Table(name="file_info")
+public class FileInfo {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JoinColumn(name="detail_id")
-	private int detailId;
+	private int fileId;
 	
-	@ManyToOne
-	@JoinColumn(name="day_id", referencedColumnName = "day_id")
-	private TravelDay travelDay;
-	
-	@ManyToOne
-	@JoinColumn(name="content_id", referencedColumnName = "content_id")
-	private AttractionInfo attractionInfo;
-	
-	private int priority;
+	private String saveFolder;    // 저장 파일 이름 
 
+	private String saveFile;  // 저장 파일 이름
+
+	private String originalFile;  // 원본 파일 이름
+	
+	@ManyToOne
+	@JoinColumn(name="board_id", referencedColumnName = "board_id")
+	private Board board;
 }
