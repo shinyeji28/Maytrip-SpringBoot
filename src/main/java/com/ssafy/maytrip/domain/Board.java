@@ -3,6 +3,7 @@ package com.ssafy.maytrip.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -60,6 +61,13 @@ public class Board {
 
 	@OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Crew crew;
+	
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL , orphanRemoval = true)
+	private List<FileInfo> fileInfos;
+	
+	@OneToOne
+	@JoinColumn(name = "file_id")
+	private FileInfo thumbnail;
 	
 	public void updateViews() {
 		views++;
