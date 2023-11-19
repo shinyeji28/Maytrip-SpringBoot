@@ -44,6 +44,7 @@ public class CrewService {
 		return CrewResponse.from(crew);
 	}
 
+	@Transactional
 	public CrewResponse selectById(int crewId) {
 		Crew crew = crewRepository.findById(crewId)
 				.orElseThrow(() -> new IdNotFoundException("크루를 찾을 수 없습니다."));
