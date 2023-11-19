@@ -78,6 +78,7 @@ public class CrewService {
 		crewMappingRepository.delete(crewMapping);
 	}
 
+	@Transactional
 	public List<CrewResponse> selectAllByMemberId(int memberId) {
 		List<CrewMapping> crewMappings = crewMappingRepository.findAllByMemberId(memberId);
 		List<CrewResponse> crews = new ArrayList<>();
