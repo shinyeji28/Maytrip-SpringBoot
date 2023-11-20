@@ -54,6 +54,9 @@ public class AttractionInfoDto {
 						.gugunCode(info.getGugun().getGugunId().getGugunCode())
 						.gugunName(info.getGugun().getGugunName())
 						.build())
+				.latitude(info.getLatitude())
+				.longitude(info.getLongitude())
+				.mlevel(info.getMlevel())
 				.build();
 	}
 	
