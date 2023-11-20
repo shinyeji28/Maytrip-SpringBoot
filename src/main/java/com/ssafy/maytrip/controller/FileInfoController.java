@@ -28,8 +28,9 @@ import lombok.RequiredArgsConstructor;
 public class FileInfoController {
 	private final FileInfoService fileInfoService;
 	
-	@Value("${file.path}")
-	private String uploadPath;
+	@Value("${file.response.path}")
+	private String fileResponsePath;
+	
 	
 	@PostMapping
 	public ResponseEntity<?> registFile(MultipartFile file){
@@ -39,7 +40,7 @@ public class FileInfoController {
 	}
 	
 	public Map<String, Object> toImageUrl(FileInfoResponse file) {
-		String fileUrl = uploadPath + file.getSaveFolder() +"/"+ file.getSaveFile();
+		String fileUrl = fileResponsePath  + file.getSaveFolder() +"/"+ file.getSaveFile();
 		
 	    Map<String, Object> imageInfo = new HashMap<>();
 	    imageInfo.put("id", file.getFileId());
@@ -49,8 +50,9 @@ public class FileInfoController {
 	   }
 	
 	public FileInfoDto makeFileSource(MultipartFile files) {
+		
 		String today = new SimpleDateFormat("yyMMdd").format(new Date());
-		String saveFolder = uploadPath + File.separator + today;
+		String saveFolder = getFolderPath() + File.separator + today;
 		File folder = new File(saveFolder);
 		if (!folder.exists())folder.mkdirs();
 		
@@ -64,6 +66,8 @@ public class FileInfoController {
 			fileInfoDto.setOriginalFile(originalFileName);
 			fileInfoDto.setSaveFile(saveFileName);
 			try {
+//				System.out.println("folder: "+folder);
+//				System.out.println("saveFileName: "+saveFileName);
 				mfile.transferTo(new File(folder, saveFileName));
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
@@ -71,6 +75,13 @@ public class FileInfoController {
 		}
 		
 		return fileInfoDto;
+	}
+	
+	public String getFolderPath() {
+		String uploadPath = System.getProperty("user.dir").replace('\\', '/');
+	    uploadPath += "/src/main/resources/static/images";
+//	    System.out.println(uploadPath);
+		return uploadPath;
 	}
 	
 }

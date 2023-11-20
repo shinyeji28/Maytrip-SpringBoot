@@ -39,15 +39,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 
 	private final BoardService boardService;
-	
-	@Value("${file.path}")
-	private String uploadPath;
-	
-	@Value("${file.path.upload-images}")
-	private String uploadImagePath;
-	
-	@Value("${file.path.upload-files}")
-	private String uploadFilePath;
+
 	
 //	@PostMapping
 //	public ResponseEntity<Integer> regist(@RequestBody BoardRequest boardDto) {
@@ -81,7 +73,7 @@ public class BoardController {
 	
 	public List<FileInfoDto> makeFileSource(List<MultipartFile> files) {
 		String today = new SimpleDateFormat("yyMMdd").format(new Date());
-		String saveFolder = uploadPath + File.separator + today;
+		String saveFolder = getFolderPath() + File.separator + today;
 		File folder = new File(saveFolder);
 		if (!folder.exists())folder.mkdirs();
 		
@@ -104,6 +96,13 @@ public class BoardController {
 			fileInfos.add(fileInfoDto);
 		}
 		return fileInfos;
+	}
+	
+	public String getFolderPath() {
+		String uploadPath = System.getProperty("user.dir").replace('\\', '/');
+	    uploadPath += "/src/main/resources/static/images";
+//	    System.out.println(uploadPath);
+		return uploadPath;
 	}
 	
 	@GetMapping
