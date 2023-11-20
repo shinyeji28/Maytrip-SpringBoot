@@ -3,6 +3,7 @@ package com.ssafy.maytrip.service;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.ssafy.maytrip.domain.CrewMapping;
 import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.domain.Gugun;
 import com.ssafy.maytrip.domain.Member;
+import com.ssafy.maytrip.domain.TravelDay;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
@@ -32,6 +34,7 @@ import com.ssafy.maytrip.repository.CrewRepository;
 import com.ssafy.maytrip.repository.FileInfoRepository;
 import com.ssafy.maytrip.repository.GugunRepository;
 import com.ssafy.maytrip.repository.MemberRepository;
+import com.ssafy.maytrip.repository.TravelDayRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +48,7 @@ public class BoardService {
 	private final MemberRepository memberRepository;
 	private final CrewMappingRepository crewMappingRepository;
 	private final FileInfoRepository fileInfoRepository;
+	private final TravelDayRepository travelDayRepository;
 
 //	@Transactional
 //	public int regist(BoardRequest boardDto) {
@@ -131,6 +135,15 @@ public class BoardService {
 				.member(member)
 				.build();
 		crewMappingRepository.save(crewMapping);
+		
+		Period period = Period.between(board.getStartDate(), board.getEndDate());
+		for(int i=1; i<=period.getDays()+1; i++) {
+			travelDayRepository.save(
+					TravelDay.builder()
+					.crew(crew)
+					.day(i)
+					.build());
+		}
 
 		return board.getId();
 	}

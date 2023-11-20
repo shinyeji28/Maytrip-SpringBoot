@@ -2,6 +2,7 @@ package com.ssafy.maytrip.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -40,12 +41,18 @@ public class PlanService {
 			Crew crew = crewRepository.findById(planRequest.getCrewId())
 					.orElseThrow(() -> new IdNotFoundException("크루 ID를 찾을 수 없습니다."));
 			
-        	TravelDay travelDay = TravelDay.builder()
-        			.crew(crew)
-        			.day(day.getDay())
-        			.build();
+			Optional<TravelDay> optionalTravelDay = travelDayRepository.findById(day.getDayId());
+			TravelDay travelDay;
+			if(optionalTravelDay.isPresent()) {
+				travelDay = optionalTravelDay.get();
+			} else {
+				travelDay = TravelDay.builder()
+	        			.crew(crew)
+	        			.day(day.getDay())
+	        			.build();					
+			}
         	
-        	int travelDayId = travelDayRepository.save(travelDay).getDayId();
+        	travelDay = travelDayRepository.save(travelDay);
             
             // details를 저장
             for (PlanRequest.Detail detail : day.getDetails()) {
@@ -55,7 +62,7 @@ public class PlanService {
                         .build();
                 
                 DayDetail dayDetail = DayDetail.builder()
-                        .travelDay(TravelDay.builder().dayId(travelDayId).build())
+                        .travelDay(travelDay)
                         .attractionInfo(attractionInfo)
                         .priority(detail.getPriority())
                         .build();
@@ -74,7 +81,6 @@ public class PlanService {
 	    List<PlanResponse.Day> planDays = new ArrayList<>();
 		for(TravelDay day : travleDays) {
 			List<PlanResponse.Detail> planDetails = new ArrayList<>();
-			
 			for(DayDetail detail : day.getDayDetails()) {
 				// 여행 일정에 대한 세부사항을 PlanResponse.Day 객체로 매핑				
 	            planDetails.add(PlanResponse.Detail.from(detail));
