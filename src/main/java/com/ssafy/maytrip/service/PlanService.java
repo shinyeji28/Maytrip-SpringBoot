@@ -12,7 +12,9 @@ import com.ssafy.maytrip.domain.AttractionInfo;
 import com.ssafy.maytrip.domain.Crew;
 import com.ssafy.maytrip.domain.DayDetail;
 import com.ssafy.maytrip.domain.TravelDay;
+import com.ssafy.maytrip.dto.request.DetailRequest;
 import com.ssafy.maytrip.dto.request.PlanRequest;
+import com.ssafy.maytrip.dto.response.DetailResponse;
 import com.ssafy.maytrip.dto.response.PlanResponse;
 import com.ssafy.maytrip.exception.IdNotFoundException;
 import com.ssafy.maytrip.repository.AttractionInfoRepository;
@@ -124,6 +126,27 @@ public class PlanService {
 			}
 		}
 		
+	}
+
+	public DetailResponse insertDetail(DetailRequest detailRequest) {
+		AttractionInfo attractionInfo = attractionInfoRepository.findById(detailRequest.getContentId())
+				.orElseThrow(() -> new IdNotFoundException("관광지 정보를 찾을 수 없습니다."));
+		TravelDay travelDay = travelDayRepository.findById(detailRequest.getDayId())
+				.orElseThrow(() -> new IdNotFoundException("여행 일자를 찾을 수 없습니다."));
+		
+		DayDetail dayDetail = DayDetail.builder()
+				.attractionInfo(attractionInfo)
+				.priority(detailRequest.getPriority())
+				.travelDay(travelDay)
+				.build();
+		DayDetail detail = dayDetailRepository.save(dayDetail);
+		return DetailResponse.from(detail);
+	}
+
+	public void deleteDetail(int detailId) {
+		DayDetail detail = dayDetailRepository.findById(detailId)
+				.orElseThrow(() -> new IdNotFoundException("여행지 일정을 찾을 수 없습니다."));
+		dayDetailRepository.delete(detail);
 	}
 	
 	
