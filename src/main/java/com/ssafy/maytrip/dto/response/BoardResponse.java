@@ -45,6 +45,10 @@ public class BoardResponse {
 	
 	private String gugunName;
 	
+	private int sidoCode;
+	
+	private int gugunCode;
+	
 	private int views;
 	
 	private FileInfoDto thumbnail;
@@ -64,6 +68,8 @@ public class BoardResponse {
 				.views(board.getViews())
 				.sidoName(board.getGugun().getGugunId().getSido().getSidoName())
 				.gugunName(board.getGugun().getGugunName())
+				.sidoCode(board.getGugun().getGugunId().getSido().getSidoCode())
+				.gugunCode(board.getGugun().getGugunId().getGugunCode())
 				.thumbnail(FileInfoDto.from(board.getThumbnail()))
 				.fileInfos(FileInfoDto.listFrom(board.getFileInfos()))
 				.build();
