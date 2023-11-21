@@ -44,6 +44,6 @@ public class BoardRequest {
 	private int gugunCode;
 	
 	private FileInfoDto thumbnail;
-	private List<FileInfoDto> fileInfos;
+
 
 }

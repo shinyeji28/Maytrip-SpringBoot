@@ -29,6 +29,7 @@ import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
+import com.ssafy.maytrip.file.FileUpload;
 import com.ssafy.maytrip.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,15 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 
 	private final BoardService boardService;
-	
-	@Value("${file.path}")
-	private String uploadPath;
-	
-	@Value("${file.path.upload-images}")
-	private String uploadImagePath;
-	
-	@Value("${file.path.upload-files}")
-	private String uploadFilePath;
+
 	
 //	@PostMapping
 //	public ResponseEntity<Integer> regist(@RequestBody BoardRequest boardDto) {
@@ -57,52 +50,16 @@ public class BoardController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
-			@RequestParam(value="images", required = false) List<MultipartFile> files,
-			@RequestParam(value="image", required = false) List<MultipartFile> thumbnail) {
-
-		List<FileInfoDto> thumbFile = null;
-		List<FileInfoDto> fileInfos = null;
+			@RequestParam(value="image") MultipartFile thumbnail,) {
+		FileInfoDto thumbFile = null;
 		
 		if(thumbnail!=null) {
-			thumbFile= makeFileSource(thumbnail);
-			for(FileInfoDto f : thumbFile) {
-				boardDto.setThumbnail(f);
-			}
-		}
-		if(files!=null) {
-			fileInfos= makeFileSource(files);
-			boardDto.setFileInfos(fileInfos);
+			thumbFile= FileUpload.makeFileSource(thumbnail);
+			boardDto.setThumbnail(thumbFile);
 		}
 		
 		int savedId = boardService.regist(boardDto);
 		return ResponseEntity.ok(savedId);
-	}
-	
-	public List<FileInfoDto> makeFileSource(List<MultipartFile> files) {
-		String today = new SimpleDateFormat("yyMMdd").format(new Date());
-		String saveFolder = uploadPath + File.separator + today;
-		File folder = new File(saveFolder);
-		if (!folder.exists())folder.mkdirs();
-		
-		List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-		for (MultipartFile mfile : files) {
-			FileInfoDto fileInfoDto = new FileInfoDto();
-			String originalFileName = mfile.getOriginalFilename();
-			if (!originalFileName.isEmpty()) {
-				String saveFileName = UUID.randomUUID().toString()
-						+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-				fileInfoDto.setSaveFolder(today);
-				fileInfoDto.setOriginalFile(originalFileName);
-				fileInfoDto.setSaveFile(saveFileName);
-				try {
-					mfile.transferTo(new File(folder, saveFileName));
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-			}
-			fileInfos.add(fileInfoDto);
-		}
-		return fileInfos;
 	}
 	
 	@GetMapping

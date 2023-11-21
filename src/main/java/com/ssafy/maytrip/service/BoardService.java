@@ -48,39 +48,6 @@ public class BoardService {
 	private final MemberRepository memberRepository;
 	private final CrewMappingRepository crewMappingRepository;
 	private final FileInfoRepository fileInfoRepository;
-	private final TravelDayRepository travelDayRepository;
-
-//	@Transactional
-//	public int regist(BoardRequest boardDto) {
-//		Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(boardDto.getSidoCode(), boardDto.getGugunCode())
-//				.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
-//		Member member = memberRepository.findById(boardDto.getMemberId())
-//				.orElseThrow(() -> new IdNotFoundException("회원이 존재하지 않습니다."));
-//
-//		Board board = Board.builder()
-//				.title(boardDto.getTitle())
-//				.content(boardDto.getContent())
-//				.startDate(boardDto.getStartDate())
-//				.endDate(boardDto.getEndDate())
-//				.headcount(boardDto.getHeadcount())
-//				.gugun(gugun)
-//				.member(member)
-//				.build();
-//		board = boardRepository.save(board);
-//		Crew crew = crewRepository.save(
-//				Crew.builder()
-//				.crewName(board.getTitle())
-//				.board(board)
-//				.build());
-//		
-//		CrewMapping crewMapping = CrewMapping.builder()
-//				.crew(crew)
-//				.member(member)
-//				.build();
-//		crewMappingRepository.save(crewMapping);
-//
-//		return board.getId();
-//	}
 	
 	@Transactional
 	public int regist(BoardRequest boardDto) {
@@ -110,18 +77,6 @@ public class BoardService {
 				.thumbnail(thumbfile)
 				.build();
 		board = boardRepository.save(board);
-		
-		if(board.getFileInfos()!=null) {
-			for(FileInfoDto fileInfo : boardDto.getFileInfos()) {
-				FileInfo file = FileInfo.builder()
-						.saveFolder(fileInfo.getSaveFolder())
-						.saveFile(fileInfo.getSaveFile())
-						.originalFile(fileInfo.getOriginalFile())
-						.board(board)
-						.build();
-				fileInfoRepository.save(file);
-			}
-		}
 		
 		
 		Crew crew = crewRepository.save(
@@ -164,6 +119,7 @@ public class BoardService {
 		
 		for(Board board : boards) {
 			// Board 객체로 BoardResponse 생성
+			BoardResponse boardResponse = BoardResponse.from(board);
 			boardDtos.add(BoardResponse.from(board));
 		}
 		return boardDtos;
