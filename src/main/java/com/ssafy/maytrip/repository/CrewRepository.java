@@ -6,4 +6,9 @@ import com.ssafy.maytrip.domain.Crew;
 
 public interface CrewRepository extends JpaRepository<Crew, Integer>{
 
+
+	Crew findByBoardId(int id);
+
+
+
 }

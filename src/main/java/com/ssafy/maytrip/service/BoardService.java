@@ -131,8 +131,12 @@ public class BoardService {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
 		board.updateViews();
+		
+		// crewId 얻기
+		Crew crew = crewRepository.findByBoardId(board.getId());
+		
 		board = boardRepository.save(board);
-		return BoardResponse.from(board);
+		return BoardResponse.fromWithCrewId(board,crew.getId());
 	}
 
 	public BoardResponse modify(BoardRequest boardDto) {
