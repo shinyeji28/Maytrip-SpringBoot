@@ -50,7 +50,7 @@ public class BoardController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
-			@RequestParam(value="image") MultipartFile thumbnail,) {
+			@RequestParam(value="image") MultipartFile thumbnail) {
 		FileInfoDto thumbFile = null;
 		
 		if(thumbnail!=null) {
