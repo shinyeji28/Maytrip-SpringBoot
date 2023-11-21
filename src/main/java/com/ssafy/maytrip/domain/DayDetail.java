@@ -36,4 +36,8 @@ public class DayDetail {
 	
 	private int priority;
 
+	public void decreasePriority() {
+		this.priority--;
+	}
+
 }

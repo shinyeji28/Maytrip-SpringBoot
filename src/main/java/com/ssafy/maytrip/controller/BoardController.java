@@ -50,9 +50,7 @@ public class BoardController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
-			@RequestParam(value="image") MultipartFile thumbnail,
-            @RequestParam(value="id", required = false) Integer id) {
-
+			@RequestParam(value="image") MultipartFile thumbnail,) {
 		FileInfoDto thumbFile = null;
 		
 		if(thumbnail!=null) {
@@ -93,7 +91,13 @@ public class BoardController {
 		BoardResponse board = boardService.modify(boardDto);
 		return ResponseEntity.ok(board);
 	}
-	
+
+	@PutMapping("/detail")
+	public ResponseEntity<BoardResponse> modifySomeInfo(@RequestBody BoardRequest boardDto) {
+		BoardResponse board = boardService.modifySomeInfo(boardDto);
+		return ResponseEntity.ok(board);
+	}
+
 	@DeleteMapping("/{boardId}")
 	public ResponseEntity<Void> delete(@PathVariable int boardId) {
 		boardService.delete(boardId);
