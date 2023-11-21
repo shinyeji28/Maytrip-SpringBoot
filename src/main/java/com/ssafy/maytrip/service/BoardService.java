@@ -196,6 +196,35 @@ public class BoardService {
 		return BoardResponse.from(board);
 	}
 
+	public BoardResponse modifySomeInfo(BoardRequest boardDto) {
+		Board board = boardRepository.findById(boardDto.getId())
+				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
+
+		board.updateInfos(boardDto);
+		board = boardRepository.save(board);
+
+		Period prevPeriod = Period.between(boardDto.getStartDate(), boardDto.getEndDate());
+		Period currPeriod = Period.between(board.getStartDate(), board.getEndDate());
+		if (prevPeriod.getDays() > currPeriod.getDays()) {
+			for (int i=currPeriod.getDays(); i<prevPeriod.getDays(); i++) {
+				travelDayRepository.deleteByLastPriority(board.getCrew().getId());
+			}
+		}
+		else if (prevPeriod.getDays() < currPeriod.getDays()) {
+			Crew crew = crewRepository.findById(board.getCrew().getId())
+					.orElseThrow(() -> new IdNotFoundException("크루를 찾지 못했습니다."));
+			for(int i= prevPeriod.getDays()+2; i <= currPeriod.getDays()+1; i++) {
+				travelDayRepository.save(
+						TravelDay.builder()
+								.crew(crew)
+								.day(i)
+								.build());
+			}
+		}
+
+		return BoardResponse.from(board);
+	}
+
 	public void delete(int boardId) {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
@@ -222,5 +251,6 @@ public class BoardService {
 
 		return boardList;
 	}
-	
+
+
 }

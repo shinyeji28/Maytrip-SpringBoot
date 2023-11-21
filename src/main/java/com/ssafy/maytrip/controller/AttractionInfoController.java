@@ -67,7 +67,7 @@ public class AttractionInfoController {
 	}
 	
 	@GetMapping("/keyword")
-	public ResponseEntity<?> getAtrractionByKeyword(
+	public ResponseEntity<?> getAttractionByKeyword(
 				@RequestParam String key,
 				@RequestParam String word
 			){

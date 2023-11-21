@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssafy.maytrip.dto.request.BoardRequest;
 import org.springframework.data.annotation.CreatedDate;
 
 import lombok.AllArgsConstructor;
@@ -72,4 +73,10 @@ public class Board {
 	public void updateViews() {
 		views++;
 	}
+
+    public void updateInfos(BoardRequest boardDto) {
+		this.title = boardDto.getTitle();
+		this.startDate = boardDto.getStartDate();
+		this.endDate = boardDto.getEndDate();
+    }
 }
