@@ -34,4 +34,8 @@ public class Crew {
 	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CrewMapping> crewMappings;
 	
+	@OneToOne
+	@JoinColumn(name="review_id")
+	private Review review;
+	
 }
