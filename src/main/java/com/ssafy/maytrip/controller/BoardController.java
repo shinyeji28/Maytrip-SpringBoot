@@ -72,6 +72,15 @@ public class BoardController {
 		return ResponseEntity.ok(list);
 	}
 	
+	@GetMapping("/planlist")
+	public ResponseEntity<List<BoardResponse>> selectAllBySharing(
+			@RequestParam(name="sido", required = false) Integer sidoCode,
+			@RequestParam(name="gugun", required = false) Integer gugunCode
+			) {
+		List<BoardResponse> list = boardService.selectAllBySharing(sidoCode, gugunCode);
+		return ResponseEntity.ok(list);
+	}
+	
 	
 	
 	@GetMapping("/search")

@@ -125,6 +125,30 @@ public class BoardService {
 		}
 		return boardDtos;
 	}
+	
+	@Transactional
+	public List<BoardResponse> selectAllBySharing(Integer sidoCode, Integer gugunCode) {
+		List<Board> boards = null;
+
+		if(sidoCode!=null && gugunCode!=null) {
+			Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(sidoCode,gugunCode)
+					.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
+			Board board = Board.builder().gugun(gugun).build();
+			boards = boardRepository.findAllByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCodeAndIsSharedIsTrue(gugunCode, sidoCode);
+		}else {
+			boards = boardRepository.findAllByIsSharedIsTrue();
+			System.out.println(boards);
+		}
+		List<BoardResponse> boardDtos = new ArrayList<BoardResponse>();
+		
+		for(Board board : boards) {
+			// Board 객체로 BoardResponse 생성
+			BoardResponse boardResponse = BoardResponse.from(board);
+			boardDtos.add(BoardResponse.from(board));
+		}
+		return boardDtos;
+	}
+
 
 	@Transactional
 	public BoardResponse selectByBoardId(int boardId) {
