@@ -87,7 +87,15 @@ public class BoardController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<BoardResponse> modify(@RequestBody BoardRequest boardDto) {
+	public ResponseEntity<BoardResponse> modify(@ModelAttribute BoardRequest boardDto,
+			@RequestParam(value="image") MultipartFile thumbnail) {
+		
+		FileInfoDto thumbFile = null;
+
+		if(thumbnail!=null) {
+			thumbFile= FileUpload.makeFileSource(thumbnail);
+			boardDto.setThumbnail(thumbFile);
+		}
 		BoardResponse board = boardService.modify(boardDto);
 		return ResponseEntity.ok(board);
 	}
