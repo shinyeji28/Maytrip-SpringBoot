@@ -52,11 +52,11 @@ public class BoardResponse {
 	
 	private int views;
 	
-	
+	private boolean isShared;
+		
 	private FileInfoResponse thumbnailInfo;
 	
 	private int crewId;
-	
 	
 	
 	public static BoardResponse from(Board board) {	
@@ -75,6 +75,7 @@ public class BoardResponse {
 				.sidoCode(board.getGugun().getGugunId().getSido().getSidoCode())
 				.gugunCode(board.getGugun().getGugunId().getGugunCode())
 				.thumbnailInfo(board.getThumbnail() == null ? null : FileUpload.toImageUrl(board.getThumbnail()))
+				.isShared(board.isShared())
 				.build();
 	}
 	

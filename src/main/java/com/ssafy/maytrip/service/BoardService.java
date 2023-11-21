@@ -234,5 +234,9 @@ public class BoardService {
 		return boardList;
 	}
 
+	public void setIsShared(int boardId) {
+		boardRepository.toggleIsShared(boardId);
+	}
+
 
 }

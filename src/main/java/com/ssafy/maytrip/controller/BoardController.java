@@ -113,4 +113,9 @@ public class BoardController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
+	@PostMapping("/{boardId}/shared")
+	public ResponseEntity<Void> setIsShared(@PathVariable int boardId) {
+		boardService.setIsShared(boardId);
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
 }
