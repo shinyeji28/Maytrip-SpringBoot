@@ -2,6 +2,7 @@ package com.ssafy.maytrip.dto.response;
 
 import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.dto.FileInfoDto;
+import com.ssafy.maytrip.file.FileUpload;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,18 +19,8 @@ import lombok.ToString;
 @ToString
 public class FileInfoResponse {
 	
-	private int fileId;
-	private String saveFolder;
-	private String originalFile;
-	private String saveFile;
+	private int id;
+	private String url;
+	private String originFileName;
 	
-	public static FileInfoResponse from(FileInfo fileInfo) {
-		if(fileInfo == null) return null;
-		return FileInfoResponse.builder()
-				.fileId(fileInfo.getFileId())
-				.saveFolder(fileInfo.getSaveFolder())
-				.originalFile(fileInfo.getOriginalFile())
-				.saveFile(fileInfo.getSaveFile())
-				.build();
-	}
 }

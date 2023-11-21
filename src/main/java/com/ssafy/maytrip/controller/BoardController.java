@@ -29,6 +29,7 @@ import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
+import com.ssafy.maytrip.file.FileUpload;
 import com.ssafy.maytrip.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,62 +50,18 @@ public class BoardController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
-			@RequestParam(value="images", required = false) List<MultipartFile> files,
-			@RequestParam(value="image", required = false) List<MultipartFile> thumbnail,
+			@RequestParam(value="image") MultipartFile thumbnail,
             @RequestParam(value="id", required = false) Integer id) {
 
-		System.out.println(boardDto.getContent());
-		List<FileInfoDto> thumbFile = null;
-		List<FileInfoDto> fileInfos = null;
+		FileInfoDto thumbFile = null;
 		
 		if(thumbnail!=null) {
-			thumbFile= makeFileSource(thumbnail);
-			for(FileInfoDto f : thumbFile) {
-				boardDto.setThumbnail(f);
-			}
-		}
-		if(files!=null) {
-			fileInfos= makeFileSource(files);
-			boardDto.setFileInfos(fileInfos);
+			thumbFile= FileUpload.makeFileSource(thumbnail);
+			boardDto.setThumbnail(thumbFile);
 		}
 		
 		int savedId = boardService.regist(boardDto);
 		return ResponseEntity.ok(savedId);
-	}
-	
-	public List<FileInfoDto> makeFileSource(List<MultipartFile> files) {
-		String today = new SimpleDateFormat("yyMMdd").format(new Date());
-		String saveFolder = getFolderPath() + File.separator + today;
-		File folder = new File(saveFolder);
-		if (!folder.exists())folder.mkdirs();
-		
-		List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-		for (MultipartFile mfile : files) {
-			FileInfoDto fileInfoDto = new FileInfoDto();
-			String originalFileName = mfile.getOriginalFilename();
-			if (!originalFileName.isEmpty()) {
-				String saveFileName = UUID.randomUUID().toString()
-						+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-				fileInfoDto.setSaveFolder(today);
-				fileInfoDto.setOriginalFile(originalFileName);
-				fileInfoDto.setSaveFile(saveFileName);
-				try {
-					mfile.transferTo(new File(folder, saveFileName));
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-			}
-			fileInfos.add(fileInfoDto);
-		}
-		return fileInfos;
-	}
-	
-	public String getFolderPath() {
-//		String uploadPath = System.getProperty("user.dir").replace('\\', '/');
-//	    uploadPath += "/src/main/resources/static/images";
-//	    System.out.println(uploadPath);
-	    String uploadPath = "C:/Maytrip-store/images";
-		return uploadPath;
 	}
 	
 	@GetMapping

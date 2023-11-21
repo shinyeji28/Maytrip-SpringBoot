@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.response.FileInfoResponse;
 import com.ssafy.maytrip.file.FileUpload;
@@ -32,9 +33,9 @@ public class FileInfoController {
 	
 	@PostMapping
 	public ResponseEntity<?> registFile(MultipartFile file){
-		FileInfoResponse fileInfoResponse= fileInfoService.regist(FileUpload.makeFileSource(file));
-		Map<String, Object> fileInfo = FileUpload.toImageUrl(fileInfoResponse);
-		return ResponseEntity.ok(fileInfo);
+		FileInfo fileInfo= fileInfoService.regist(FileUpload.makeFileSource(file));
+		FileInfoResponse responseFile = FileUpload.toImageUrl(fileInfo);
+		return ResponseEntity.ok(responseFile);
 	}
 	
 

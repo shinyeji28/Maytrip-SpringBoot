@@ -18,7 +18,7 @@ public class FileInfoService {
 	private final FileInfoRepository fileInfoRepository;
 	
 	@Transactional
-	public FileInfoResponse regist(FileInfoDto fileInfoDto) {
+	public FileInfo regist(FileInfoDto fileInfoDto) {
 		
 		FileInfo fileInfo = FileInfo.builder()
 				.saveFolder(fileInfoDto.getSaveFolder())
@@ -27,6 +27,6 @@ public class FileInfoService {
 				.build();
 		
 		fileInfo = fileInfoRepository.save(fileInfo);
-		return FileInfoResponse.from(fileInfo);
+		return fileInfo;
 	}
 }
