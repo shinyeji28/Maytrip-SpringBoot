@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.maytrip.domain.Board;
 import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.dto.FileInfoDto;
+import com.ssafy.maytrip.file.FileUpload;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -45,11 +46,17 @@ public class BoardResponse {
 	
 	private String gugunName;
 	
+	private int sidoCode;
+	
+	private int gugunCode;
+	
 	private int views;
 	
-	private FileInfoDto thumbnail;
+//	private FileInfoDto thumbnail;
 	
-	private List<FileInfoDto> fileInfos;
+	private FileInfoResponse thumbnailInfo;
+	
+	
 	
 	public static BoardResponse from(Board board) {	
 		
@@ -64,8 +71,9 @@ public class BoardResponse {
 				.views(board.getViews())
 				.sidoName(board.getGugun().getGugunId().getSido().getSidoName())
 				.gugunName(board.getGugun().getGugunName())
-				.thumbnail(FileInfoDto.from(board.getThumbnail()))
-				.fileInfos(FileInfoDto.listFrom(board.getFileInfos()))
+				.sidoCode(board.getGugun().getGugunId().getSido().getSidoCode())
+				.gugunCode(board.getGugun().getGugunId().getGugunCode())
+				.thumbnailInfo(board.getThumbnail() == null ? null : FileUpload.toImageUrl(board.getThumbnail()))
 				.build();
 	}
 	
