@@ -53,6 +53,7 @@ public class BoardController {
 			@RequestParam(value="image", required = false) List<MultipartFile> thumbnail,
             @RequestParam(value="id", required = false) Integer id) {
 
+		System.out.println(boardDto.getContent());
 		List<FileInfoDto> thumbFile = null;
 		List<FileInfoDto> fileInfos = null;
 		
@@ -99,9 +100,10 @@ public class BoardController {
 	}
 	
 	public String getFolderPath() {
-		String uploadPath = System.getProperty("user.dir").replace('\\', '/');
-	    uploadPath += "/src/main/resources/static/images";
+//		String uploadPath = System.getProperty("user.dir").replace('\\', '/');
+//	    uploadPath += "/src/main/resources/static/images";
 //	    System.out.println(uploadPath);
+	    String uploadPath = "C:/Maytrip-store/images";
 		return uploadPath;
 	}
 	
