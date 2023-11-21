@@ -146,7 +146,17 @@ public class PlanService {
 	public void deleteDetail(int detailId) {
 		DayDetail detail = dayDetailRepository.findById(detailId)
 				.orElseThrow(() -> new IdNotFoundException("여행지 일정을 찾을 수 없습니다."));
-		dayDetailRepository.delete(detail);
+		
+		List<DayDetail> details = dayDetailRepository.findAllByTravelDayDayId(detail.getTravelDay().getDayId());
+		for(DayDetail dayDetail : details) {
+			if(dayDetail.getDetailId() == detailId) {
+				dayDetailRepository.delete(dayDetail);							
+			}
+			else if(dayDetail.getPriority() > detail.getPriority()) {
+				dayDetail.decreasePriority();
+				dayDetailRepository.save(dayDetail);
+			}
+		}
 	}
 	
 	
