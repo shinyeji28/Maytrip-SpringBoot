@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.ssafy.maytrip.dto.request.BoardRequest;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.ssafy.maytrip.dto.request.BoardRequest;
@@ -71,6 +73,10 @@ public class Board {
 	@OneToOne
 	@JoinColumn(name = "file_id")
 	private FileInfo thumbnail;
+	
+	@Column(name = "is_shared")
+	@ColumnDefault("false")
+	private boolean isShared;
 	
 	public void updateViews() {
 		views++;
