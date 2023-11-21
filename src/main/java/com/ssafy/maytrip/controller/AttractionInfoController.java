@@ -41,11 +41,12 @@ public class AttractionInfoController {
 	}
 	
 	@GetMapping("/region")
-	public ResponseEntity<?> getAttractionBySidoGugun(
+	public ResponseEntity<?> getAttractionBySidoGugunContentType(
 				@RequestParam(value="sido") int sidoCode,
-				@RequestParam(value="gugun") int gugunCode
+				@RequestParam(value="gugun") int gugunCode,
+				@RequestParam(value = "contentType") int contentTypeId
 			){
-		List<AttractionInfoDto> attractions = attractionInfoService.getAttractionBySidoGugun(sidoCode, gugunCode);
+		List<AttractionInfoDto> attractions = attractionInfoService.getAttractionBySidoGugunContentType(sidoCode, gugunCode, contentTypeId);
 		if(attractions != null) {
 			return ResponseEntity.ok(attractions);
 		}
@@ -66,7 +67,7 @@ public class AttractionInfoController {
 	}
 	
 	@GetMapping("/keyword")
-	public ResponseEntity<?> getAtrractionByKeyword(
+	public ResponseEntity<?> getAttractionByKeyword(
 				@RequestParam String key,
 				@RequestParam String word
 			){
@@ -78,7 +79,6 @@ public class AttractionInfoController {
 	public ResponseEntity<?> getDescriptionByContentId(@PathVariable(value="contentId") int contentId){
 		AttractionDescriptionResponse description = attractionDescriptionService.getOverviewByContentId(contentId);
 		return ResponseEntity.ok(description);
-
 	}
 	
 }

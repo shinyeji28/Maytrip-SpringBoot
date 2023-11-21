@@ -48,8 +48,24 @@ public class AttractionInfoService {
 	}
 	
 	// 시도, 구군 별 관광지 정보 조회
-	public List<AttractionInfoDto> getAttractionBySidoGugun(int sidoCode, int gugunCode){
-		List<AttractionInfo> attraction = attractionInfoRepository.findByGugunAndSido(sidoCode,gugunCode);
+	public List<AttractionInfoDto> getAttractionBySidoGugunContentType(int sidoCode, int gugunCode, int contentTypeId){
+		List<AttractionInfo> attraction;
+		if(contentTypeId == 0) { // 콘텐츠 선택 안할 때 모든 콘텐츠 조회
+			if(gugunCode == 0) { // 시도 코드만 넘겨줬을 때
+				attraction = attractionInfoRepository.findByGugunGugunIdSidoSidoCode(sidoCode);
+			} else {
+				attraction = attractionInfoRepository.findByGugunGugunIdSidoSidoCodeAndGugunGugunIdGugunCode(sidoCode, gugunCode);
+			}
+		} else {
+			if(sidoCode == 0) { // 콘텐츠 타입으로만 조회
+				attraction = attractionInfoRepository.findByContentTypeId(contentTypeId);
+			}
+			else if(gugunCode == 0) { // 시도 코드만 넘겨줬을 때
+				attraction = attractionInfoRepository.findByGugunGugunIdSidoSidoCodeAndContentTypeId(sidoCode, contentTypeId);
+			} else {
+				attraction = attractionInfoRepository.findByGugunGugunIdSidoSidoCodeAndGugunGugunIdGugunCodeAndContentTypeId(sidoCode, gugunCode, contentTypeId);
+			}
+		}
 		List<AttractionInfoDto> list = new ArrayList<AttractionInfoDto>();
 		if(attraction!=null) {
 			for(AttractionInfo row : attraction) {

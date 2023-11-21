@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.maytrip.domain.DayDetail;
 import com.ssafy.maytrip.domain.TravelDay;
+import com.ssafy.maytrip.dto.AttractionInfoDto;
 import com.ssafy.maytrip.dto.response.AttractionDescriptionResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -60,12 +61,13 @@ public class PlanResponse {
     @ToString
     public static class Detail {
     	private int detailId;
-        private int contentId;
+        private AttractionInfoDto attractionInfo;
         private int priority;
         
         public static PlanResponse.Detail from(DayDetail dayDetail) {
         	return PlanResponse.Detail.builder()
 					.detailId(dayDetail.getDetailId())
+					.attractionInfo(AttractionInfoDto.from(dayDetail.getAttractionInfo()))
 					.priority(dayDetail.getPriority())
 					.build();
         }

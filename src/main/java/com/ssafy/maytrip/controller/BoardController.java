@@ -100,7 +100,13 @@ public class BoardController {
 		BoardResponse board = boardService.modify(boardDto);
 		return ResponseEntity.ok(board);
 	}
-	
+
+	@PutMapping("/detail")
+	public ResponseEntity<BoardResponse> modifySomeInfo(@RequestBody BoardRequest boardDto) {
+		BoardResponse board = boardService.modifySomeInfo(boardDto);
+		return ResponseEntity.ok(board);
+	}
+
 	@DeleteMapping("/{boardId}")
 	public ResponseEntity<Void> delete(@PathVariable int boardId) {
 		boardService.delete(boardId);
