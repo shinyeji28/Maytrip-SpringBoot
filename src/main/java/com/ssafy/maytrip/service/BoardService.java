@@ -48,6 +48,7 @@ public class BoardService {
 	private final MemberRepository memberRepository;
 	private final CrewMappingRepository crewMappingRepository;
 	private final FileInfoRepository fileInfoRepository;
+	private final TravelDayRepository travelDayRepository;
 	
 	@Transactional
 	public int regist(BoardRequest boardDto) {
@@ -228,6 +229,10 @@ public class BoardService {
 
 
 		return boardList;
+	}
+
+	public void setIsShared(int boardId) {
+		boardRepository.toggleIsShared(boardId);
 	}
 
 

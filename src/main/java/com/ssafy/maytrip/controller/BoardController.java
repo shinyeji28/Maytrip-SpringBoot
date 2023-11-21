@@ -50,7 +50,7 @@ public class BoardController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
-			@RequestParam(value="image") MultipartFile thumbnail,) {
+			@RequestParam(value="image") MultipartFile thumbnail) {
 		FileInfoDto thumbFile = null;
 		
 		if(thumbnail!=null) {
@@ -112,4 +112,9 @@ public class BoardController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
+	@PostMapping("/{boardId}/shared")
+	public ResponseEntity<Void> setIsShared(@PathVariable int boardId) {
+		boardService.setIsShared(boardId);
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
 }
