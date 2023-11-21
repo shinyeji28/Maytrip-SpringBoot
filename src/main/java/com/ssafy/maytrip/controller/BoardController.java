@@ -50,12 +50,11 @@ public class BoardController {
 	
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
-			@RequestParam(value="image") MultipartFile thumbnail,
-            @RequestParam(value="id", required = false) Integer id) {
+			@RequestParam(value="image") MultipartFile thumbnail) {
 
 		FileInfoDto thumbFile = null;
 		
-		if(thumbnail!=null) {
+		if(thumbnail.getSize()!=0) {
 			thumbFile= FileUpload.makeFileSource(thumbnail);
 			boardDto.setThumbnail(thumbFile);
 		}
@@ -94,7 +93,7 @@ public class BoardController {
 		
 		FileInfoDto thumbFile = null;
 
-		if(thumbnail!=null) {
+		if(thumbnail.getSize()!=0) {
 			thumbFile= FileUpload.makeFileSource(thumbnail);
 			boardDto.setThumbnail(thumbFile);
 		}

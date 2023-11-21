@@ -130,7 +130,7 @@ public class BoardService {
 		Board board = boardRepository.findById(boardDto.getId())
 				.orElseThrow(()-> new IdNotFoundException("게시글을 찾을 수 없습니다."));
 		
-		if(boardDto.getThumbnail()!=null) {    
+		if(boardDto.getThumbnail()!=null) {   
 			thumbfile = FileInfo.builder()
 					.saveFolder(boardDto.getThumbnail().getSaveFolder())
 					.saveFile(boardDto.getThumbnail().getSaveFile())
@@ -140,8 +140,7 @@ public class BoardService {
 			thumbfile = fileInfoRepository.save(thumbfile);
 			
 		}else {
-			thumbfile  = fileInfoRepository.findByBoardId(boardDto.getId());
-
+			thumbfile  = board.getThumbnail();
 		}
 		
 		board = Board.builder()
