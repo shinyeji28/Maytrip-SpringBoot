@@ -138,7 +138,25 @@ public class BoardService {
 		Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(boardDto.getSidoCode(), boardDto.getGugunCode())
 				.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
 		
-		Board board = Board.builder()
+		FileInfo thumbfile = null;
+		Board board = boardRepository.findById(boardDto.getId())
+				.orElseThrow(()-> new IdNotFoundException("게시글을 찾을 수 없습니다."));
+		
+		if(boardDto.getThumbnail()!=null) {    
+			thumbfile = FileInfo.builder()
+					.saveFolder(boardDto.getThumbnail().getSaveFolder())
+					.saveFile(boardDto.getThumbnail().getSaveFile())
+					.originalFile(boardDto.getThumbnail().getOriginalFile())
+					.build();
+			
+			thumbfile = fileInfoRepository.save(thumbfile);
+			
+		}else {
+			thumbfile  = fileInfoRepository.findByBoardId(boardDto.getId());
+
+		}
+		
+		board = Board.builder()
 				.id(boardDto.getId())
 				.title(boardDto.getTitle())
 				.content(boardDto.getContent())
@@ -146,6 +164,9 @@ public class BoardService {
 				.endDate(boardDto.getEndDate())
 				.headcount(boardDto.getHeadcount())
 				.gugun(gugun)
+				.registDate(board.getRegistDate())
+				.views(board.getViews())
+				.thumbnail(thumbfile)
 				.build();
 		
 		boardRepository.save(board);

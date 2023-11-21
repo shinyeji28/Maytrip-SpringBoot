@@ -10,6 +10,8 @@ import javax.persistence.*;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.ssafy.maytrip.dto.request.BoardRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,8 +65,8 @@ public class Board {
 	@OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Crew crew;
 	
-	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL , orphanRemoval = true)
-	private List<FileInfo> fileInfos;
+//	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL , orphanRemoval = true)
+//	private List<FileInfo> fileInfos;
 	
 	@OneToOne
 	@JoinColumn(name = "file_id")

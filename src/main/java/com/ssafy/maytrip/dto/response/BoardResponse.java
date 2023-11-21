@@ -52,7 +52,6 @@ public class BoardResponse {
 	
 	private int views;
 	
-//	private FileInfoDto thumbnail;
 	
 	private FileInfoResponse thumbnailInfo;
 	
