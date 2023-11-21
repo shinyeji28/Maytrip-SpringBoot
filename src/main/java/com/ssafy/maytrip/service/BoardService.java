@@ -200,14 +200,12 @@ public class BoardService {
 		Board board = boardRepository.findById(boardDto.getId())
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
 
-		board.updateInfos(boardDto);
-		board = boardRepository.save(board);
-
-		Period prevPeriod = Period.between(boardDto.getStartDate(), boardDto.getEndDate());
-		Period currPeriod = Period.between(board.getStartDate(), board.getEndDate());
+		Period currPeriod = Period.between(boardDto.getStartDate(), boardDto.getEndDate());
+		Period prevPeriod = Period.between(board.getStartDate(), board.getEndDate());
 		if (prevPeriod.getDays() > currPeriod.getDays()) {
-			for (int i=currPeriod.getDays(); i<prevPeriod.getDays(); i++) {
-				travelDayRepository.deleteByLastPriority(board.getCrew().getId());
+			List<TravelDay> days = travelDayRepository.findAllByCrewId(board.getCrew().getId());
+			for (int i=currPeriod.getDays()+1; i<days.size(); i++) {
+				travelDayRepository.delete(days.get(i));
 			}
 		}
 		else if (prevPeriod.getDays() < currPeriod.getDays()) {
@@ -221,6 +219,9 @@ public class BoardService {
 								.build());
 			}
 		}
+		
+		board.updateInfos(boardDto);
+		board = boardRepository.save(board);
 
 		return BoardResponse.from(board);
 	}
