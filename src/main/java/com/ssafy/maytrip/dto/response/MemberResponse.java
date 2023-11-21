@@ -1,6 +1,8 @@
 package com.ssafy.maytrip.dto.response;
 
 import com.ssafy.maytrip.domain.Member;
+import com.ssafy.maytrip.file.FileUpload;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +18,15 @@ public class MemberResponse {
     private String name;
 
     private String token;
+    
+    private FileInfoResponse profileImg;
 
     public static MemberResponse from(Member member) {
         return MemberResponse.builder()
                 .memberId(member.getId())
                 .username(member.getUsername())
                 .name(member.getName())
+                .profileImg(FileUpload.toImageUrl(member.getProfileImg()))
                 .build();
     }
 

@@ -154,7 +154,6 @@ public class BoardService {
 			
 		}else {
 			thumbfile  = fileInfoRepository.findByBoardId(boardDto.getId());
-
 		}
 		
 		board = Board.builder()

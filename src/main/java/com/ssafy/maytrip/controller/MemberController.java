@@ -35,7 +35,8 @@ public class MemberController {
 	}
 
 	@PutMapping("/user")
-	public ResponseEntity<MemberResponse> modify(@RequestBody MemberRequest memberRequest) {
+	public ResponseEntity<MemberResponse> modify(@ModelAttribute MemberRequest memberRequest) {
+		System.out.println("회원 정보 컨트롤러 : "+ memberRequest);
 		MemberResponse member = memberService.modify(memberRequest);
 		return ResponseEntity.ok(member);
 	}

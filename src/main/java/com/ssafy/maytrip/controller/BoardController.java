@@ -71,8 +71,6 @@ public class BoardController {
 		return ResponseEntity.ok(list);
 	}
 	
-	
-	
 	@GetMapping("/search")
 	public ResponseEntity<?> listBoard(@RequestParam Map<String, String> map) {
 
