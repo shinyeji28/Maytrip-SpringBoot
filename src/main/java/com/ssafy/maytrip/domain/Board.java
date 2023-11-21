@@ -9,6 +9,8 @@ import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.ssafy.maytrip.dto.request.BoardRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -62,8 +64,8 @@ public class Board {
 	@OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Crew crew;
 	
-	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL , orphanRemoval = true)
-	private List<FileInfo> fileInfos;
+//	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL , orphanRemoval = true)
+//	private List<FileInfo> fileInfos;
 	
 	@OneToOne
 	@JoinColumn(name = "file_id")
@@ -72,4 +74,16 @@ public class Board {
 	public void updateViews() {
 		views++;
 	}
+
+//	public void update(BoardRequest boardDto) {
+//		this.title = boardDto.getTitle();
+//		this.content = boardDto.getContent();
+//		this.startDate = boardDto.getStartDate();
+//		this.endDate = boardDto.getEndDate();
+//		this.headcount = boardDto.getHeadcount();
+//		this.gugun = boardDto.getGugunCode();
+//
+//		
+//		if(boardDto)
+//	}
 }
