@@ -35,13 +35,4 @@ public class FileInfoDto {
 				.build();
 	}
 	
-	public static List<FileInfoDto> listFrom(List<FileInfo> fileInfos) {
-		if(fileInfos == null) return null;
-		List<FileInfoDto> files = new ArrayList<>();
-		for(FileInfo file : fileInfos) {
-			files.add(FileInfoDto.from(file));
-		}
-		return files;
-	}
-
 }
