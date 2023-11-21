@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssafy.maytrip.dto.request.BoardRequest;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.ssafy.maytrip.dto.request.BoardRequest;
@@ -75,15 +76,9 @@ public class Board {
 		views++;
 	}
 
-//	public void update(BoardRequest boardDto) {
-//		this.title = boardDto.getTitle();
-//		this.content = boardDto.getContent();
-//		this.startDate = boardDto.getStartDate();
-//		this.endDate = boardDto.getEndDate();
-//		this.headcount = boardDto.getHeadcount();
-//		this.gugun = boardDto.getGugunCode();
-//
-//		
-//		if(boardDto)
-//	}
+    public void updateInfos(BoardRequest boardDto) {
+		this.title = boardDto.getTitle();
+		this.startDate = boardDto.getStartDate();
+		this.endDate = boardDto.getEndDate();
+    }
 }

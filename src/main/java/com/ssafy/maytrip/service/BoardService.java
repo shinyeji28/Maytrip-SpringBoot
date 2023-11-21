@@ -3,6 +3,7 @@ package com.ssafy.maytrip.service;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.ssafy.maytrip.domain.CrewMapping;
 import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.domain.Gugun;
 import com.ssafy.maytrip.domain.Member;
+import com.ssafy.maytrip.domain.TravelDay;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.BoardRequest;
 import com.ssafy.maytrip.dto.response.BoardResponse;
@@ -32,6 +34,7 @@ import com.ssafy.maytrip.repository.CrewRepository;
 import com.ssafy.maytrip.repository.FileInfoRepository;
 import com.ssafy.maytrip.repository.GugunRepository;
 import com.ssafy.maytrip.repository.MemberRepository;
+import com.ssafy.maytrip.repository.TravelDayRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -87,6 +90,15 @@ public class BoardService {
 				.member(member)
 				.build();
 		crewMappingRepository.save(crewMapping);
+		
+		Period period = Period.between(board.getStartDate(), board.getEndDate());
+		for(int i=1; i<=period.getDays()+1; i++) {
+			travelDayRepository.save(
+					TravelDay.builder()
+					.crew(crew)
+					.day(i)
+					.build());
+		}
 
 		return board.getId();
 	}
@@ -161,6 +173,36 @@ public class BoardService {
 		return BoardResponse.from(board);
 	}
 
+	public BoardResponse modifySomeInfo(BoardRequest boardDto) {
+		Board board = boardRepository.findById(boardDto.getId())
+				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
+
+		Period currPeriod = Period.between(boardDto.getStartDate(), boardDto.getEndDate());
+		Period prevPeriod = Period.between(board.getStartDate(), board.getEndDate());
+		if (prevPeriod.getDays() > currPeriod.getDays()) {
+			List<TravelDay> days = travelDayRepository.findAllByCrewId(board.getCrew().getId());
+			for (int i=currPeriod.getDays()+1; i<days.size(); i++) {
+				travelDayRepository.delete(days.get(i));
+			}
+		}
+		else if (prevPeriod.getDays() < currPeriod.getDays()) {
+			Crew crew = crewRepository.findById(board.getCrew().getId())
+					.orElseThrow(() -> new IdNotFoundException("크루를 찾지 못했습니다."));
+			for(int i= prevPeriod.getDays()+2; i <= currPeriod.getDays()+1; i++) {
+				travelDayRepository.save(
+						TravelDay.builder()
+								.crew(crew)
+								.day(i)
+								.build());
+			}
+		}
+		
+		board.updateInfos(boardDto);
+		board = boardRepository.save(board);
+
+		return BoardResponse.from(board);
+	}
+
 	public void delete(int boardId) {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
@@ -187,5 +229,6 @@ public class BoardService {
 
 		return boardList;
 	}
-	
+
+
 }
