@@ -184,18 +184,25 @@ public class BoardService {
 			thumbfile  = board.getThumbnail();
 		}
 		
-		board = Board.builder()
-				.id(boardDto.getId())
-				.title(boardDto.getTitle())
-				.content(boardDto.getContent())
-				.startDate(boardDto.getStartDate())
-				.endDate(boardDto.getEndDate())
-				.headcount(boardDto.getHeadcount())
-				.gugun(gugun)
-				.registDate(board.getRegistDate())
-				.views(board.getViews())
-				.thumbnail(thumbfile)
-				.build();
+//		board = Board.builder()
+//				.id(boardDto.getId())
+//				.title(boardDto.getTitle())
+//				.content(boardDto.getContent())
+//				.startDate(boardDto.getStartDate())
+//				.endDate(boardDto.getEndDate())
+//				.headcount(boardDto.getHeadcount())
+//				.gugun(gugun)
+//				.registDate(board.getRegistDate())
+//				.views(board.getViews())
+//				.thumbnail(thumbfile)
+//				.build();
+		
+		board.setTitle(boardDto.getTitle());
+		board.setContent(boardDto.getContent());
+		board.setStartDate(boardDto.getStartDate());
+		board.setEndDate(boardDto.getEndDate());
+		board.setGugun(gugun);
+		board.setThumbnail(thumbfile);
 		
 		boardRepository.save(board);
 		return BoardResponse.from(board);

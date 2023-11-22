@@ -1,6 +1,7 @@
 package com.ssafy.maytrip.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class FileInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="file_id")
 	private int fileId;
 	
 	private String saveFolder;    // 저장 파일 이름 
@@ -37,4 +39,10 @@ public class FileInfo {
 	@ManyToOne
 	@JoinColumn(name="board_id", referencedColumnName = "board_id")
 	private Board board;
+	
+	@ManyToOne
+	@JoinColumn(name="crew_id", referencedColumnName = "crew_id")
+	private Crew crew;
+	
+	
 }
