@@ -44,4 +44,8 @@ public class Member {
 	public void updateProfileImg(FileInfo fileInfo) {
 		this.profileImg = fileInfo;
 	}
+
+	public void changePassword(String newPassword) {
+		this.password = newPassword;
+	}
 }
