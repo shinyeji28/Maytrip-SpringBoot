@@ -12,10 +12,12 @@ import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.domain.Review;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.ReviewRequest;
+import com.ssafy.maytrip.dto.response.FileInfoResponse;
 import com.ssafy.maytrip.dto.response.PlanResponse;
 import com.ssafy.maytrip.dto.response.ReviewDetailResponse;
 import com.ssafy.maytrip.dto.response.ReviewResponse;
 import com.ssafy.maytrip.exception.IdNotFoundException;
+import com.ssafy.maytrip.file.FileUpload;
 import com.ssafy.maytrip.repository.CrewRepository;
 import com.ssafy.maytrip.repository.FileInfoRepository;
 import com.ssafy.maytrip.repository.ReviewRepository;
@@ -44,19 +46,6 @@ public class ReviewService {
 				.build();
 		
 		
-		// 리뷰 사진 저장
-		for(FileInfoDto fileInfoDto : reviewRequest.getFiles()) {
-			FileInfo fileInfo = FileInfo.builder()
-					.saveFolder(fileInfoDto.getSaveFolder())
-					.originalFile(fileInfoDto.getOriginalFile())
-					.saveFile(fileInfoDto.getSaveFile())
-					.crew(crew)
-					.build();
-			
-			fileInfo = fileInfoRepository.save(fileInfo);
-			
-		}
-		
 		// 리뷰 내용 저장
 		Review review = Review.builder()
 					.title(reviewRequest.getTitle())
@@ -65,8 +54,21 @@ public class ReviewService {
 					.build();
 
 		crew.setReview(review);
-		
 		crew = crewRepository.save(crew);
+
+		// 리뷰 사진 저장
+		for(FileInfoDto fileInfoDto : reviewRequest.getFiles()) {
+			FileInfo fileInfo = FileInfo.builder()
+					.saveFolder(fileInfoDto.getSaveFolder())
+					.originalFile(fileInfoDto.getOriginalFile())
+					.saveFile(fileInfoDto.getSaveFile())
+					.review(crew.getReview())
+					.build();
+			
+			fileInfo = fileInfoRepository.save(fileInfo);
+			
+		}
+		
 	}
 	
 	public List<ReviewResponse> getAll() {
@@ -92,7 +94,17 @@ public class ReviewService {
 		
 		// 플랜 정보 얻기
 		PlanResponse planResponse = planService.selectPlan(crew.getId()); 
-						
+					
+		// 사진 정보 얻기
+		List<FileInfo> fileInfos = fileInfoRepository.findAllByReviewId(review.getId());
+		if(fileInfos!=null) {
+			List<FileInfoResponse> images = new ArrayList<>();
+			for(FileInfo fileInfo: fileInfos) {
+				images.add(FileUpload.toImageUrl(fileInfo));
+			}
+			reviewResponse.setImages(images);
+		}
+		
 		return new ReviewDetailResponse(planResponse, reviewResponse);
 	}
 }

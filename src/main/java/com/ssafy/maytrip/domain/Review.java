@@ -1,5 +1,7 @@
 package com.ssafy.maytrip.domain;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -38,4 +41,7 @@ public class Review {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name= "thumbnail", referencedColumnName = "file_id", nullable = true)
 	private FileInfo fileInfo;
+	
+	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<FileInfo> fileInfos;
 }
