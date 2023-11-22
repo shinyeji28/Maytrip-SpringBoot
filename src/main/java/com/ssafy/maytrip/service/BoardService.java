@@ -125,14 +125,42 @@ public class BoardService {
 		}
 		return boardDtos;
 	}
+	
+	@Transactional
+	public List<BoardResponse> selectAllBySharing(Integer sidoCode, Integer gugunCode) {
+		List<Board> boards = null;
+
+		if(sidoCode!=null && gugunCode!=null) {
+			Gugun gugun = gugunRepository.findByGugunIdSidoSidoCodeAndGugunIdGugunCode(sidoCode,gugunCode)
+					.orElseThrow(() -> new IdNotFoundException("gugun code가 존재하지 않습니다."));
+			Board board = Board.builder().gugun(gugun).build();
+			boards = boardRepository.findAllByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCodeAndIsSharedIsTrue(gugunCode, sidoCode);
+		}else {
+			boards = boardRepository.findAllByIsSharedIsTrue();
+			System.out.println(boards);
+		}
+		List<BoardResponse> boardDtos = new ArrayList<BoardResponse>();
+		
+		for(Board board : boards) {
+			// Board 객체로 BoardResponse 생성
+			BoardResponse boardResponse = BoardResponse.from(board);
+			boardDtos.add(BoardResponse.from(board));
+		}
+		return boardDtos;
+	}
+
 
 	@Transactional
 	public BoardResponse selectByBoardId(int boardId) {
 		Board board = boardRepository.findById(boardId)
 				.orElseThrow(() -> new IdNotFoundException("게시글을 찾을 수 없습니다."));
 		board.updateViews();
+		
+		// crewId 얻기
+		Crew crew = crewRepository.findByBoardId(board.getId());
+		
 		board = boardRepository.save(board);
-		return BoardResponse.from(board);
+		return BoardResponse.fromWithCrewId(board,crew.getId());
 	}
 
 	public BoardResponse modify(BoardRequest boardDto) {
@@ -143,7 +171,7 @@ public class BoardService {
 		Board board = boardRepository.findById(boardDto.getId())
 				.orElseThrow(()-> new IdNotFoundException("게시글을 찾을 수 없습니다."));
 		
-		if(boardDto.getThumbnail()!=null) {    
+		if(boardDto.getThumbnail()!=null) {   
 			thumbfile = FileInfo.builder()
 					.saveFolder(boardDto.getThumbnail().getSaveFolder())
 					.saveFile(boardDto.getThumbnail().getSaveFile())
@@ -153,7 +181,7 @@ public class BoardService {
 			thumbfile = fileInfoRepository.save(thumbfile);
 			
 		}else {
-			thumbfile  = fileInfoRepository.findByBoardId(boardDto.getId());
+			thumbfile  = board.getThumbnail();
 		}
 		
 		board = Board.builder()
