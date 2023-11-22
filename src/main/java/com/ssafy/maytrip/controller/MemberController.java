@@ -18,6 +18,7 @@ import com.ssafy.maytrip.dto.request.MemberRequest;
 import com.ssafy.maytrip.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
