@@ -16,7 +16,7 @@ public class ReviewResponse {
 		
 	private int id;
 	
-	private int like;
+	private int likes;
 	
 	private String title;
 	
@@ -25,7 +25,7 @@ public class ReviewResponse {
 	public static ReviewResponse from(Review review) {
 		return ReviewResponse.builder()
 				.id(review.getId())
-				.like(review.getId())
+				.likes(review.getLikes())
 				.title(review.getTitle())
 				.content(review.getContent())
 				.build();
