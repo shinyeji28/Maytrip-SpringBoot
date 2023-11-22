@@ -56,6 +56,8 @@ public class BoardResponse {
 		
 	private FileInfoResponse thumbnailInfo;
 	
+	private int crewId;
+	
 	
 	public static BoardResponse from(Board board) {	
 		
@@ -74,6 +76,26 @@ public class BoardResponse {
 				.gugunCode(board.getGugun().getGugunId().getGugunCode())
 				.thumbnailInfo(board.getThumbnail() == null ? null : FileUpload.toImageUrl(board.getThumbnail()))
 				.isShared(board.isShared())
+				.build();
+	}
+	
+	public static BoardResponse fromWithCrewId(Board board, int crewId) {	
+		
+		return BoardResponse.builder()
+				.id(board.getId())
+				.title(board.getTitle())
+				.content(board.getContent())
+				.registDate(board.getRegistDate())
+				.startDate(board.getStartDate())
+				.endDate(board.getEndDate())
+				.headcount(board.getHeadcount())
+				.views(board.getViews())
+				.sidoName(board.getGugun().getGugunId().getSido().getSidoName())
+				.gugunName(board.getGugun().getGugunName())
+				.sidoCode(board.getGugun().getGugunId().getSido().getSidoCode())
+				.gugunCode(board.getGugun().getGugunId().getGugunCode())
+				.thumbnailInfo(board.getThumbnail() == null ? null : FileUpload.toImageUrl(board.getThumbnail()))
+				.crewId(crewId)
 				.build();
 	}
 	
