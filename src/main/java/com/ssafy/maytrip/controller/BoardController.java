@@ -51,9 +51,10 @@ public class BoardController {
 	@PostMapping
 	public ResponseEntity<Integer> regist(@ModelAttribute BoardRequest boardDto,
 			@RequestParam(value="image") MultipartFile thumbnail) {
+
 		FileInfoDto thumbFile = null;
 		
-		if(thumbnail!=null) {
+		if(thumbnail.getSize()!=0) {
 			thumbFile= FileUpload.makeFileSource(thumbnail);
 			boardDto.setThumbnail(thumbFile);
 		}
@@ -68,6 +69,15 @@ public class BoardController {
 			@RequestParam(name="gugun", required = false) Integer gugunCode
 			) {
 		List<BoardResponse> list = boardService.selectAll(sidoCode, gugunCode);
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/planlist")
+	public ResponseEntity<List<BoardResponse>> selectAllBySharing(
+			@RequestParam(name="sido", required = false) Integer sidoCode,
+			@RequestParam(name="gugun", required = false) Integer gugunCode
+			) {
+		List<BoardResponse> list = boardService.selectAllBySharing(sidoCode, gugunCode);
 		return ResponseEntity.ok(list);
 	}
 	
@@ -92,7 +102,7 @@ public class BoardController {
 		
 		FileInfoDto thumbFile = null;
 
-		if(thumbnail!=null) {
+		if(thumbnail.getSize()!=0) {
 			thumbFile= FileUpload.makeFileSource(thumbnail);
 			boardDto.setThumbnail(thumbFile);
 		}
