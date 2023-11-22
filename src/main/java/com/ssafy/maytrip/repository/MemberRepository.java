@@ -9,4 +9,6 @@ import com.ssafy.maytrip.domain.Member;
 public interface MemberRepository extends JpaRepository<Member, Integer>{
 
 	Optional<Member> findByUsernameAndPassword(String username, String password);
+
+	Optional<Member> findByEmail(String email);
 }
