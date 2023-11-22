@@ -48,7 +48,4 @@ public class Crew {
 	@JoinColumn(name="review_id", nullable = true )
 	private Review review;	
 	
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name= "thumbnail", referencedColumnName = "file_id", nullable = true)
-	private FileInfo fileInfo;
 }

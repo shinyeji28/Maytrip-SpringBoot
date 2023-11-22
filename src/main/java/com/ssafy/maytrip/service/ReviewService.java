@@ -58,10 +58,10 @@ public class ReviewService {
 		Review review = Review.builder()
 					.title(reviewRequest.getTitle())
 					.content(reviewRequest.getContent())
+					.fileInfo(thumbFileInfo)
 					.build();
 
 		crew.setReview(review);
-		crew.setFileInfo(thumbFileInfo);
 		
 		crew = crewRepository.save(crew);
 	}

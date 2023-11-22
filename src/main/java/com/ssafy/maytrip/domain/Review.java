@@ -1,10 +1,12 @@
 package com.ssafy.maytrip.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -33,4 +35,7 @@ public class Review {
 	@Column(name = "content", length = 5000)
 	private String content;
 	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name= "thumbnail", referencedColumnName = "file_id", nullable = true)
+	private FileInfo fileInfo;
 }
