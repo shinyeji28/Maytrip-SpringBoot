@@ -1,5 +1,9 @@
 package com.ssafy.maytrip.dto.request;
 
+import java.util.List;
+
+import com.ssafy.maytrip.dto.FileInfoDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +29,10 @@ public class ReviewRequest {
 	private String title;
 	
 	private String content;
+	
+	private List<FileInfoDto> files;
+	
+	private FileInfoDto thumbnail;
 	
 
 }
