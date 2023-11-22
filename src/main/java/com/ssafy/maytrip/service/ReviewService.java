@@ -33,6 +33,13 @@ public class ReviewService {
 		Crew crew = crewRepository.findById(reviewRequest.getCrewId())
 				.orElseThrow(()-> new IdNotFoundException("크루가 존재하지 않습니다."));
 		
+		// 썸네일 저장
+		FileInfo thumbFileInfo = FileInfo.builder()
+				.saveFolder(reviewRequest.getThumbnail().getSaveFolder())
+				.originalFile(reviewRequest.getThumbnail().getOriginalFile())
+				.saveFile(reviewRequest.getThumbnail().getSaveFile())
+				.build();
+		
 		
 		// 리뷰 사진 저장
 		for(FileInfoDto fileInfoDto : reviewRequest.getFiles()) {
@@ -54,11 +61,13 @@ public class ReviewService {
 					.build();
 
 		crew.setReview(review);
+		crew.setFileInfo(thumbFileInfo);
 		
 		crew = crewRepository.save(crew);
 	}
 	
 	public List<ReviewResponse> getAll() {
+		
 		List<Review> reviews = reviewRepository.findAll();
 		
 		List<ReviewResponse> reviewResponse = new ArrayList<>();
@@ -68,7 +77,7 @@ public class ReviewService {
 		return reviewResponse;
 	}
 	
-	public ReviewResponse getbyCrewId(int crewId) {
+	public ReviewResponse getByCrewId(int crewId) {
 		Crew crew = Crew.builder().id(crewId).build();
 		crew = crewRepository.findById(crew.getId())
 			.orElseThrow(() -> new IdNotFoundException("크루가 존재하지 않습니다."));

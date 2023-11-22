@@ -31,7 +31,13 @@ public class ReviewContoller {
 	
 	@PostMapping
 	public void regist(@ModelAttribute ReviewRequest reviewRequest,
-			@RequestParam(value="images", required = false) List<MultipartFile> files  ){
+			@RequestParam(value="images", required = false) List<MultipartFile> files,
+			@RequestParam(value="thumb", required = false) MultipartFile thumbnail
+			){
+		FileInfoDto thumbInfoDto = null;
+		if(thumbnail.getSize()!=0) {
+			thumbInfoDto = FileUpload.makeFileSource(thumbnail);
+		}
 		
 		List<FileInfoDto> fileInfoDtos = new ArrayList<>();
 		if(files != null) {
@@ -41,6 +47,7 @@ public class ReviewContoller {
 			
 		}
 		reviewRequest.setFiles(fileInfoDtos);
+		reviewRequest.setThumbnail(thumbInfoDto);
 		reviewService.regist(reviewRequest);
 	}
 	
@@ -51,8 +58,8 @@ public class ReviewContoller {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getbyCrewId(@PathVariable(value="id") int crewId){
-		ReviewResponse reviewResponse = reviewService.getbyCrewId(crewId);
+	public ResponseEntity<?> getByCrewId(@PathVariable(value="id") int crewId){
+		ReviewResponse reviewResponse = reviewService.getByCrewId(crewId);
 		return ResponseEntity.ok(reviewResponse);
 	}
 }

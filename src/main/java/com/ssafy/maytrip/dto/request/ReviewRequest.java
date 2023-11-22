@@ -32,5 +32,7 @@ public class ReviewRequest {
 	
 	private List<FileInfoDto> files;
 	
+	private FileInfoDto thumbnail;
+	
 
 }

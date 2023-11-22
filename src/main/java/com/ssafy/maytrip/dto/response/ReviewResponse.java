@@ -21,6 +21,8 @@ public class ReviewResponse {
 	private String title;
 	
 	private String content;
+	
+	private FileInfoResponse thumbnail;
 
 	public static ReviewResponse from(Review review) {
 		return ReviewResponse.builder()
