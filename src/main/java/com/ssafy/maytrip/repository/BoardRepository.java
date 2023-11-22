@@ -22,5 +22,10 @@ public interface BoardRepository extends JpaRepository<Board, Integer>{
 	@Transactional
 	void toggleIsShared(int boardId);
 
+	List<Board> findAllByIsSharedIsTrue();
+
+	List<Board> findAllByGugunGugunIdGugunCodeAndGugunGugunIdSidoSidoCodeAndIsSharedIsTrue(Integer gugunCode,
+			Integer sidoCode);
+
 
 }
