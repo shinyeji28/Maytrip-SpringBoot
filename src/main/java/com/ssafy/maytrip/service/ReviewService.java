@@ -12,6 +12,8 @@ import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.domain.Review;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.ReviewRequest;
+import com.ssafy.maytrip.dto.response.PlanResponse;
+import com.ssafy.maytrip.dto.response.ReviewDetailResponse;
 import com.ssafy.maytrip.dto.response.ReviewResponse;
 import com.ssafy.maytrip.exception.IdNotFoundException;
 import com.ssafy.maytrip.repository.CrewRepository;
@@ -27,6 +29,7 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final CrewRepository crewRepository;
 	private final FileInfoRepository fileInfoRepository;
+	private final PlanService planService;
 	
 	@Transactional
 	public void regist(ReviewRequest reviewRequest) {
@@ -77,12 +80,19 @@ public class ReviewService {
 		return reviewResponse;
 	}
 	
-	public ReviewResponse getByCrewId(int crewId) {
-		Crew crew = Crew.builder().id(crewId).build();
-		crew = crewRepository.findById(crew.getId())
-			.orElseThrow(() -> new IdNotFoundException("크루가 존재하지 않습니다."));
-
-		ReviewResponse reviewResponse = ReviewResponse.from(crew.getReview());
-		return reviewResponse;
+	public ReviewDetailResponse getByReviewId(int reviewId) {
+		Review review = Review.builder().id(reviewId).build();
+		// 리뷰 정보 얻기
+		review = reviewRepository.findById(review.getId())
+				.orElseThrow(() -> new IdNotFoundException("리뷰가 존재하지 않습니다."));
+		
+		ReviewResponse reviewResponse = ReviewResponse.from(review);
+		
+		Crew crew = crewRepository.findByReviewId(review.getId());
+		
+		// 플랜 정보 얻기
+		PlanResponse planResponse = planService.selectPlan(crew.getId()); 
+						
+		return new ReviewDetailResponse(planResponse, reviewResponse);
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.ReviewRequest;
+import com.ssafy.maytrip.dto.response.ReviewDetailResponse;
 import com.ssafy.maytrip.dto.response.ReviewResponse;
 import com.ssafy.maytrip.file.FileUpload;
 import com.ssafy.maytrip.service.ReviewService;
@@ -58,8 +59,8 @@ public class ReviewContoller {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getByCrewId(@PathVariable(value="id") int crewId){
-		ReviewResponse reviewResponse = reviewService.getByCrewId(crewId);
+	public ResponseEntity<?> getByReviewId(@PathVariable(value="id") int reviewId){
+		ReviewDetailResponse reviewResponse = reviewService.getByReviewId(reviewId);
 		return ResponseEntity.ok(reviewResponse);
 	}
 }
