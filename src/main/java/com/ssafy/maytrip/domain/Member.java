@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
+import com.ssafy.maytrip.dto.FileInfoDto;
 import com.ssafy.maytrip.dto.request.MemberRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +29,23 @@ public class Member {
 	private String username;
 	private String password;
 	private String name;
+	
+	private String email;
+	
+	@OneToOne
+	@JoinColumn(name = "file_id")
+	private FileInfo profileImg;
 
     public void update(MemberRequest memberRequest) {
 		this.name = memberRequest.getName();
+		this.email = memberRequest.getEmail();
     }
+
+	public void updateProfileImg(FileInfo fileInfo) {
+		this.profileImg = fileInfo;
+	}
+
+	public void changePassword(String newPassword) {
+		this.password = newPassword;
+	}
 }
