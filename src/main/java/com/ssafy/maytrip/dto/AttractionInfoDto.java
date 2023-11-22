@@ -1,5 +1,6 @@
 package com.ssafy.maytrip.dto;
 
+import com.ssafy.maytrip.domain.AttractionDescription;
 import com.ssafy.maytrip.domain.AttractionInfo;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +35,8 @@ public class AttractionInfoDto {
 	private double longitude;
 	private String mlevel;
 	
+	private String overview;
+		
 	public static AttractionInfoDto from(AttractionInfo info) {
 		return AttractionInfoDto.builder()
 				.contentId(info.getContentId())
@@ -57,6 +60,7 @@ public class AttractionInfoDto {
 				.latitude(info.getLatitude())
 				.longitude(info.getLongitude())
 				.mlevel(info.getMlevel())
+				.overview(info.getDescription()==null?null:info.getDescription().getOverview())
 				.build();
 	}
 	
