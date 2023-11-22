@@ -32,13 +32,12 @@ public class ReviewService {
 					.content(reviewRequest.getContent())
 					.build();
 
-		review = reviewRepository.save(review);
-		
 		Crew crew = crewRepository.findById(reviewRequest.getCrewId())
 				.orElseThrow(()-> new IdNotFoundException("크루가 존재하지 않습니다."));
 		
-		crewRepository.updateReview(reviewRequest.getCrewId(), review.getId());
+		crew.setReview(review);
 		
+		crew = crewRepository.save(crew);
 	}
 	
 	public List<ReviewResponse> getAll() {
@@ -59,7 +58,4 @@ public class ReviewService {
 		ReviewResponse reviewResponse = ReviewResponse.from(crew.getReview());
 		return reviewResponse;
 	}
-
-	
-
 }

@@ -1,15 +1,22 @@
 package com.ssafy.maytrip.dto.request;
 
-import com.ssafy.maytrip.domain.Review;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class ReviewRequest {
 	
-	private int crewId;
+	private Integer crewId;
 	
 //	private int id;
 //	

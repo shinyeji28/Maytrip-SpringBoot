@@ -1,17 +1,27 @@
 package com.ssafy.maytrip.domain;
 
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,8 +44,8 @@ public class Crew {
 	@OneToMany(mappedBy = "crew", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CrewMapping> crewMappings;
 	
-	@OneToOne
-	@JoinColumn(name="review_id")
-	private Review review;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name="review_id", nullable = true )
+	private Review review;	
 	
 }
