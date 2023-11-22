@@ -30,15 +30,22 @@ public class Member {
 	private String password;
 	private String name;
 	
+	private String email;
+	
 	@OneToOne
 	@JoinColumn(name = "file_id")
 	private FileInfo profileImg;
 
     public void update(MemberRequest memberRequest) {
 		this.name = memberRequest.getName();
+		this.email = memberRequest.getEmail();
     }
 
 	public void updateProfileImg(FileInfo fileInfo) {
 		this.profileImg = fileInfo;
+	}
+
+	public void changePassword(String newPassword) {
+		this.password = newPassword;
 	}
 }

@@ -16,6 +16,8 @@ public class MemberResponse {
     private String username;
 
     private String name;
+    
+    private String email;
 
     private String token;
     
@@ -28,6 +30,7 @@ public class MemberResponse {
                 .memberId(member.getId())
                 .username(member.getUsername())
                 .name(member.getName())
+                .email(member.getEmail())
                 .profileImg(file)
                 .build();
     }
