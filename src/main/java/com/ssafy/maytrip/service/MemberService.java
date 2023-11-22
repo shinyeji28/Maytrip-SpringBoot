@@ -48,10 +48,9 @@ public class MemberService {
 	}
 
 	public MemberResponse modify(MemberRequest memberRequest) {
-		System.out.println("회원 정보 : " + memberRequest);
 		Member member = memberRepository.findById(memberRequest.getMemberId())
 						.orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
-		if(memberRequest.getProfileImg() != null) {
+		if(!memberRequest.getProfileImg().isEmpty()) {
 			FileInfoDto profileImg = FileUpload.makeFileSource(memberRequest.getProfileImg());
 			FileInfo fileInfo = fileInfoRepository.save(
 					FileInfo.builder()
@@ -64,5 +63,12 @@ public class MemberService {
 		member.update(memberRequest);			
 		member = memberRepository.save(member);
 		return MemberResponse.from(member);
+	}
+
+
+	public void delete(int memberId) {
+		Member member = memberRepository.findById(memberId)
+				.orElseThrow(() -> new IdNotFoundException("회원 정보를 찾을 수 없습니다."));
+		memberRepository.delete(member);
 	}
 }

@@ -22,11 +22,13 @@ public class MemberResponse {
     private FileInfoResponse profileImg;
 
     public static MemberResponse from(Member member) {
-        return MemberResponse.builder()
+        FileInfoResponse file = null;
+        if(member.getProfileImg() != null) file = FileUpload.toImageUrl(member.getProfileImg());
+    	return MemberResponse.builder()
                 .memberId(member.getId())
                 .username(member.getUsername())
                 .name(member.getName())
-                .profileImg(FileUpload.toImageUrl(member.getProfileImg()))
+                .profileImg(file)
                 .build();
     }
 
