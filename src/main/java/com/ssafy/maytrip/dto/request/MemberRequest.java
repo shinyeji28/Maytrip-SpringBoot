@@ -22,6 +22,7 @@ public class MemberRequest {
 	// 유저 ID
 	private String username;
 	private String password;
+	private String email;
 	// 유저 이름
 	private String name;
 	
