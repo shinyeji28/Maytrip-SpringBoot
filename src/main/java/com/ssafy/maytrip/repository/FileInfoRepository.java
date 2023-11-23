@@ -9,7 +9,7 @@ import com.ssafy.maytrip.domain.FileInfo;
 
 public interface FileInfoRepository extends JpaRepository<FileInfo, Integer> {
 
-	FileInfo findByBoardId(Integer id);
+//	FileInfo findByBoardId(Integer id);
 
 	List<FileInfo> findAllByReviewId(int id);
 

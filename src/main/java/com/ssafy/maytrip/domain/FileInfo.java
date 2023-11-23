@@ -36,9 +36,9 @@ public class FileInfo {
 
 	private String originalFile;  // 원본 파일 이름
 	
-	@ManyToOne
-	@JoinColumn(name="board_id", referencedColumnName = "board_id")
-	private Board board;
+//	@OneToOne
+//	@JoinColumn(name="board_id", referencedColumnName = "board_id")
+//	private Board board;
 	
 	@ManyToOne
 	@JoinColumn(name="review_id", referencedColumnName = "review_id")
