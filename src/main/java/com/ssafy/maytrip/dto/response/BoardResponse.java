@@ -58,6 +58,8 @@ public class BoardResponse {
 	
 	private int crewId;
 	
+	private MemberResponse member;
+	
 	
 	public static BoardResponse from(Board board) {	
 		
@@ -76,6 +78,7 @@ public class BoardResponse {
 				.gugunCode(board.getGugun().getGugunId().getGugunCode())
 				.thumbnailInfo(board.getThumbnail() == null ? null : FileUpload.toImageUrl(board.getThumbnail()))
 				.isShared(board.isShared())
+				.member(MemberResponse.from(board.getMember()))
 				.build();
 	}
 	
@@ -96,6 +99,7 @@ public class BoardResponse {
 				.gugunCode(board.getGugun().getGugunId().getGugunCode())
 				.thumbnailInfo(board.getThumbnail() == null ? null : FileUpload.toImageUrl(board.getThumbnail()))
 				.crewId(crewId)
+				.member(MemberResponse.from(board.getMember()))
 				.build();
 	}
 	
