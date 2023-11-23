@@ -41,8 +41,8 @@ public class FileInfo {
 	private Board board;
 	
 	@ManyToOne
-	@JoinColumn(name="crew_id", referencedColumnName = "crew_id")
-	private Crew crew;
+	@JoinColumn(name="review_id", referencedColumnName = "review_id")
+	private Review review;
 	
 	
 }
