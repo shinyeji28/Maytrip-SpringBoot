@@ -81,13 +81,16 @@ public class ReviewService {
 		}
 		return reviewResponse;
 	}
-	
+
+	@Transactional
 	public ReviewDetailResponse getByReviewId(int reviewId) {
 		Review review = Review.builder().id(reviewId).build();
 		// 리뷰 정보 얻기
 		review = reviewRepository.findById(review.getId())
 				.orElseThrow(() -> new IdNotFoundException("리뷰가 존재하지 않습니다."));
-		
+		review.updateViews();
+		reviewRepository.save(review);
+
 		ReviewResponse reviewResponse = ReviewResponse.from(review);
 		
 		Crew crew = crewRepository.findByReviewId(review.getId());

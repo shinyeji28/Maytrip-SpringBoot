@@ -24,6 +24,8 @@ public class ReviewResponse {
 	private String title;
 	
 	private String content;
+
+	private int views;
 	
 	private FileInfoResponse thumbnailInfo;
 	
@@ -36,6 +38,7 @@ public class ReviewResponse {
 				.likes(review.getLikes())
 				.title(review.getTitle())
 				.content(review.getContent())
+				.views(review.getViews())
 				.thumbnailInfo(review.getFileInfo() == null ? null : FileUpload.toImageUrl(review.getFileInfo()))
 				.build();
 	}
