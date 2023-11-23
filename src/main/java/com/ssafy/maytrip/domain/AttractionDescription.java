@@ -22,9 +22,8 @@ public class AttractionDescription {
 	@Column(name = "content_id")
 	private int contentId;
 	
-	@MapsId
 	@OneToOne
-	@JoinColumn(name="content_id", nullable=false, referencedColumnName="content_id")
+    @JoinColumn(name="content_id", referencedColumnName="content_id")
 	private AttractionInfo attractionInfo;
 	
 	@Column(length=10000)

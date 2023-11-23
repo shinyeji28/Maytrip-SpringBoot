@@ -2,8 +2,10 @@ package com.ssafy.maytrip.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.maytrip.domain.FileInfo;
 import com.ssafy.maytrip.domain.Review;
 import com.ssafy.maytrip.dto.request.ReviewRequest;
 import com.ssafy.maytrip.file.FileUpload;
@@ -24,8 +26,11 @@ public class ReviewResponse {
 	private String content;
 	
 	private FileInfoResponse thumbnailInfo;
+	
+	private List<FileInfoResponse> images;
 
 	public static ReviewResponse from(Review review) {
+		
 		return ReviewResponse.builder()
 				.id(review.getId())
 				.likes(review.getLikes())
