@@ -72,7 +72,7 @@ public class Board {
 //	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL , orphanRemoval = true)
 //	private List<FileInfo> fileInfos;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "file_id")
 	private FileInfo thumbnail;
 	
