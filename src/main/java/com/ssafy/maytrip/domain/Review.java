@@ -37,6 +37,8 @@ public class Review {
 	
 	@Column(name = "content", length = 5000)
 	private String content;
+
+	private int views;
 	
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name= "thumbnail", referencedColumnName = "file_id", nullable = true)
@@ -44,4 +46,8 @@ public class Review {
 	
 	@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FileInfo> fileInfos;
+
+	public void updateViews() {
+		this.views++;
+	}
 }
