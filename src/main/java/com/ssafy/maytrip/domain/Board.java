@@ -33,7 +33,8 @@ public class Board {
 	private int id;
 	
 	private String title;
-
+	@Lob
+	@Column(columnDefinition = "LONGTEXT")
 	private String content;
 
 	private LocalDate startDate;
