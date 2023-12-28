@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 	
 //	Swagger-UI 3.x 확인
-//	//http://localhost/vue/swagger-ui/index.html
+//	http://localhost:9000/api/swagger-ui/index.html
 	
 	private final ServerProperties serverProperties;
 
