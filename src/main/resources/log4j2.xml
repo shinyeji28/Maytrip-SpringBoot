@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status : log4j2 내부적으로 로그를 남기는데 이때 어떤 레벨로 로그를 만길지 지정하는 것이다-->
+<!-- monitorInterval : 설정한 초단위 당 한 번씩 log4j2.xml이 변경되었는지 감지하여 재구동 없이 바로 적용시켜준다-->
+<Configuration status="info" monitorInterval="30">
+    <Properties>
+        <!-- 동적으로 파일 path를 지정
+            자바 시스템 프로터티의 filename을 읽어서 logs 밑에 filename(동적)이라는 이름으로 파일을 만들어 log를 찍는다
+            만약 filename이 없다면 default.log라는 이름으로 파일을 만들겠다
+        -->
+        <Property name="filename">logs/${sys:filename:-default.log}</Property>
+    </Properties>
+    <!-- 1. 어떤 target에 로그를 출력할 것인지 정의한다.
+         target: file,console, kafka
+     2. 보낼 때 어떤 pattern으로 보내는지도 정의한다.-->
+    <!-- 'name은 'ref'와 같아야 한다 -->
+    <Appenders>
+        <Console name="ConsoleLog" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="FileLog" fileName="${filename}">
+            <PatternLayout>
+                <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <!-- Appender를 실제로 매핑시켜주는 역할이다 -->
+    <!-- 해당 name 위치의 logging 설정 -->
+    <Loggers>
+
+        <Logger name="com.ssafy.maytrip.controller" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleLog"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleLog"/>
+            <AppenderRef ref="FileLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
